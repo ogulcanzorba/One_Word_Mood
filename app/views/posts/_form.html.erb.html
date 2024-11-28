@@ -1,0 +1,10 @@
+<%= form_for @post do |f| %>
+<%= f.label :mood_word %>
+<%= f.text_field :mood_word %>
+<% if @post.errors[:mood_word].any? %>
+<div class="error">
+  <%= @post.errors[:mood_word].first %>
+</div>
+<% end %>
+<%= f.submit %>
+<% end %>

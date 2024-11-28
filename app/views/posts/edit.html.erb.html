@@ -1,0 +1,7 @@
+
+<h1>Edit Post</h1>
+<%= form_for @post do |f| %>
+<%= f.label :mood_word %>
+<%= f.text_field :mood_word %>
+<%= f.submit "Update Post" %>
+<% end %>
