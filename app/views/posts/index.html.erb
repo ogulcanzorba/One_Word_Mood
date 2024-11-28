@@ -1,9 +1,8 @@
-
 <h1>All Posts</h1>
 <% @posts.each do |post| %>
 <div class="post">
     <p><strong>Post by: <%= post.user.username %></strong></p>
     <p><%= post.mood_word %></p>
-    <p><%= post.created_at %></p>
+    <p><%= post.created_at.strftime("%b %d, %Y %H:%M") %></p>
 </div>
 <% end %>
