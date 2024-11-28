@@ -1,0 +1,36 @@
+<h2>How are you feeling?</h2>
+<%= form_with(model: @post, local: true) do |form| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> forbidden:</h2>
+      <ul>
+        <% @post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.label :mood_word, "Mood Word" %><br>
+    <%= form.text_field :mood_word %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Create Post" %>
+  </div>
+<% end %>
+
+
+<h1>All Posts</h1>
+
+<% if @posts.any? %>
+<% @posts.each do |post| %>
+<div class="post">
+    <p><strong>Post by: <%= post.user&.username || "Unknown User" %></strong></p>
+    <p>Mood Word: <%= post.mood_word || "No Mood Word" %></p>
+    <p>Created At: <%= post.created_at || "No Date" %></p>
+</div>
+<% end %>
+<% else %>
+<p>No posts available. Be the first to create one!</p>
+<% end %>

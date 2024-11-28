@@ -16,6 +16,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_28_155035) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "mood_word"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
