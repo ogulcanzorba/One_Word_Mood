@@ -3,7 +3,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.includes(:user).all
-    @post = Post.new
+    @post = Post.new # Initialize a new post for the form
     # Logs a warning if no posts are found
     Rails.logger.warn("No posts found") if @posts.empty?
   end
@@ -18,18 +18,15 @@ class PostsController < ApplicationController
     end
   end
 
-  def new
-    @post = Post.new
-  end
-
   def create
     @post = Post.new(post_params)
     @post.user = current_user # Assign the current user to the post
 
     if @post.save
-      redirect_to @post, notice: 'Post successfully created.'
+      redirect_to posts_path, notice: 'Post successfully created.' # Redirect to index to display posts
     else
-      render :index # Render the index view so the form and posts list are visible
+      @posts = Post.all
+      render :index # If validation fails, show the index with the form again
     end
   end
 
@@ -54,26 +51,7 @@ class PostsController < ApplicationController
 
   private
 
-  # Ensure the user is logged in
-  def authenticate_user!
-    # Replace with real authentication logic, e.g., using Devise
-    unless current_user
-      redirect_to root_path, alert: "You must be logged in to perform this action."
-    end
-  end
-
-  # Simulate current_user method for development/testing
-  def current_user
-    # Replace with actual logic for retrieving the logged-in user
-    User.first
-  end
-
-  # Permit the necessary parameters
   def post_params
     params.require(:post).permit(:content, :mood_word)
-  end
-
-  def set_post
-    @post = Post.find(params[:id])
   end
 end

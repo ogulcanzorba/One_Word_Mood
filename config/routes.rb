@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "posts#index"
 
-  resources :posts
+  # Keep routes for posts, but exclude the 'new' route.
+  resources :posts, except: [:new]  # Removed the 'new' action.
 end
 
