@@ -25,7 +25,7 @@
 <% if @posts.any? %>
   <% @posts.each do |post| %>
     <div class="post">
-      <p><strong>Post by: <%= post.user&.username || "Unknown User" %></strong></p>
+      <p><strong>Post by: <%= post.user&.handle || "Unknown User" %></strong></p>
       <p>Mood Word: <%= post.mood_word || "No Mood Word" %></p>
       <p>Created At: <%= post.created_at %></p>
     </div>

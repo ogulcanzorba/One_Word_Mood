@@ -52,6 +52,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:content, :mood_word)
+    params.require(:post).permit(:mood_word)
   end
 end
