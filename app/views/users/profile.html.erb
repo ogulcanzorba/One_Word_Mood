@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-8">
+      <h1><%= @user.name %></h1>
+      <h6>
+
+
+        <%= pluralize(@total_views, "total post view") %>
+      </h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+      <% @posts.each do |post| %>
+        <div class="card mt-3">
+          <div class="card-body">
+
+            <p class="card-text"><%= time_ago_in_words(post.created_at) %> ago</p>
+
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+</html>
