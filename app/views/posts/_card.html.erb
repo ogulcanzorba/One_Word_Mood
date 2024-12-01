@@ -1,0 +1,14 @@
+<div class="col">
+  <div class="card h-100">
+    <div class="card-header">
+      Post by: <%= post.user&.handle || "Unknown User" %>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Mood Word</h5>
+      <p class="card-text"><%= post.mood_word || "No Mood Word" %></p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></small>
+    </div>
+  </div>
+</div>

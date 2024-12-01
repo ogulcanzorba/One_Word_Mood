@@ -16,10 +16,12 @@
         <% if user_signed_in? %>
           <!-- If the user is signed in -->
           <li class="nav-item">
+            <%= link_to "My Profile", user_profile_path, class: "nav-link active fw-semibold text-white" %>
+          </li>
+          <li class="nav-item">
             <%= link_to destroy_user_session_path, method: :delete, class: "nav-link active fw-semibold text-white" do %>
               <%= content_tag(:span, 'Logout', class: 'glyphicon glyphicon-log-out') %>
             <% end %>
-
           </li>
         <% else %>
           <!-- If the user is not signed in -->

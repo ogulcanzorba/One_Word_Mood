@@ -17,7 +17,8 @@
       <% @posts.each do |post| %>
         <div class="card mt-3">
           <div class="card-body">
-
+            <p class="card-text"><%= post.user.name %></p>
+            <p class="card-text"><%=post.mood_word %></p>
             <p class="card-text"><%= time_ago_in_words(post.created_at) %> ago</p>
 
           </div>
