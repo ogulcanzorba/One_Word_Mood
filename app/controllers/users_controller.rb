@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def profile
     @user = current_user # Giriş yapan kullanıcıyı alır
-    @posts = @user.posts
+    @posts = @user.posts.order(created_at: :desc).page(params[:page]).per(4)
     @total_views=0
 
   end

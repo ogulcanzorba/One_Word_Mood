@@ -4,6 +4,7 @@ class PostsController < ApplicationController
   def index
     @posts = Post.includes(:user).all
     @post = Post.new # Initialize a new post for the form
+    @posts = Post.all.order(created_at: :desc).page(params[:page]).per(4)  # En yeni olan en üstte
     # Logs a warning if no posts are found
     Rails.logger.warn("No posts found") if @posts.empty?
   end
