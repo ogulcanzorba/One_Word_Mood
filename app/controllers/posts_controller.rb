@@ -26,7 +26,8 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to posts_path, notice: 'Post successfully created.' # Redirect to index to display posts
     else
-      @posts = Post.all
+      # Paginate posts when rendering the index view
+      @posts = Post.page(params[:page]).per(4) # Adjust number per page as needed
       render :index # If validation fails, show the index with the form again
     end
   end
