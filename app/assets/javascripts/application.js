@@ -1,3 +1,7 @@
 // app/assets/javascripts/application.js
-import Rails from "rails-ujs";
+import "@rails/ujs";
+import "@rails/activestorage";
+import "channels";
+
 Rails.start();
+

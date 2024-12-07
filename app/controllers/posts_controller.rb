@@ -2,12 +2,11 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @posts = Post.includes(:user).all
-    @post = Post.new # Initialize a new post for the form
-    @posts = Post.all.order(created_at: :desc).page(params[:page]).per(4)  # En yeni olan en üstte
-    # Logs a warning if no posts are found
+    @post = Post.new # For the new post form
+    @posts = Post.includes(:user).order(updated_at: :desc).page(params[:page]).per(4)
     Rails.logger.warn("No posts found") if @posts.empty?
   end
+
 
   def show
     @post = Post.find_by(id: params[:id])
@@ -33,22 +32,34 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
+    @post = current_user.posts.find_by(id: params[:id])
+    if @post.nil?
+      redirect_to posts_path, alert: "You are not authorized to edit this post."
+    end
   end
 
   def update
-    @post = Post.find(params[:id])
-    if @post.update(post_params)
-      redirect_to @post, notice: 'Post successfully updated.'
+    @post = current_user.posts.find_by(id: params[:id])
+    if @post.nil?
+      redirect_to posts_path, alert: "You are not authorized to edit this post."
+    elsif @post.update(post_params)
+      redirect_to posts_path, notice: "Post successfully updated."
     else
+      flash.now[:alert] = "Failed to update the post. Please fix the errors below."
       render :edit
     end
   end
 
+
   def destroy
-    @post = Post.find(params[:id])
-    @post.destroy
-    redirect_to posts_path, notice: 'Post was successfully destroyed.'
+    @post = current_user.posts.find_by(id: params[:id]) # Restrict deletion to the post owner
+
+    if @post
+      @post.destroy
+      redirect_to posts_path, notice: 'Post was successfully deleted.'
+    else
+      redirect_to posts_path, alert: 'You are not authorized to delete this post.'
+    end
   end
 
   private
