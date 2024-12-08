@@ -1,12 +1,13 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_post, only: [:like, :edit, :update, :destroy]
+  before_action :set_post, only: [:edit, :update, :destroy, :same_mood, :undo_same_mood]
+
+
   def index
     @post = Post.new # For the new post form
     @posts = Post.includes(:user).order(updated_at: :desc).page(params[:page]).per(4)
     Rails.logger.warn("No posts found") if @posts.empty?
   end
-
 
   def show
     @post = Post.find_by(id: params[:id])
@@ -25,7 +26,6 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to posts_path, notice: 'Post successfully created.' # Redirect to index to display posts
     else
-      # Paginate posts when rendering the index view
       @posts = Post.page(params[:page]).per(4) # Adjust number per page as needed
       render :index # If validation fails, show the index with the form again
     end
@@ -50,7 +50,6 @@ class PostsController < ApplicationController
     end
   end
 
-
   def destroy
     @post = current_user.posts.find_by(id: params[:id]) # Restrict deletion to the post owner
 
@@ -62,47 +61,38 @@ class PostsController < ApplicationController
     end
   end
 
-  def like
-    @post = Post.find(params[:id])
+  def same_mood
+    like = @post.likes.find_by(user: current_user)
 
-    # Kullanıcı daha önce beğenmişse, aynı postu tekrar beğenmesini engelle
-    unless @post.likes.exists?(user: current_user)
-      @post.likes.create(user: current_user)
-      flash[:notice] = "Post successfully liked!"
+    if like
+      like.destroy
+      flash[:notice] = "You removed your mood expression!"
     else
-      flash[:alert] = "You have already liked this post."
+      @post.likes.create(user: current_user)
+      flash[:notice] = "You expressed the same mood!"
     end
-
 
     redirect_to posts_path
   end
-  def unlike
-    def unlike
-      @post = Post.find(params[:id])
 
-      like = @post.likes.find_by(user: current_user)
-      if like
-        like.destroy
-        flash[:notice] = "You unliked the post."
-      else
-        flash[:alert] = "You haven't liked this post yet."
-      end
-
-      redirect_to posts_path
+  def undo_same_mood
+    like = @post.likes.find_by(user: current_user)
+    if like
+      like.destroy
+      flash[:notice] = "You have undone the same mood!"
+    else
+      flash[:alert] = "You haven't expressed the same mood on this post yet."
     end
-  end
-
-
-
-  private
-
-  def post_params
-    params.require(:post).permit(:mood_word)
+    redirect_to posts_path
   end
 
   private
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def post_params
+    params.require(:post).permit(:mood_word, :content)
   end
 end

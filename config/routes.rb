@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   resources :posts, except: [:new]  # Removed the 'new' action.
   resources :posts do
     member do
-      post :like
-      delete :unlike
+      post :same_mood
+      delete :undo_same_mood
     end
   end
 end
