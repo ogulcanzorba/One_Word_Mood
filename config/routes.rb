@@ -21,5 +21,11 @@ Rails.application.routes.draw do
 
   # Keep routes for posts, but exclude the 'new' route.
   resources :posts, except: [:new]  # Removed the 'new' action.
+  resources :posts do
+    member do
+      post :like
+      delete :unlike
+    end
+  end
 end
 
