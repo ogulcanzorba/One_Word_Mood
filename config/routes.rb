@@ -27,5 +27,10 @@ Rails.application.routes.draw do
       delete :undo_same_mood
     end
   end
+
+  resources :users, only: [:show, :edit, :update]
+  resources :users, only: [:edit, :update] do
+    get 'profile', on: :collection
+  end
 end
 

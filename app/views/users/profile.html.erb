@@ -1,4 +1,16 @@
 <h2>Welcome, <%= @user.handle %></h2>
+
+
+  <%= image_tag "default_avatar.jpg", size: "150x150", class: "rounded-circle" %>
+
+
+<p>Email: <%= @user.email %></p>
+<p>Joined at: <%= @user.created_at.strftime("%B %d, %Y") %></p>
+<li>Total Posts: <%= @user.posts.count %></li>
+<li>Total Mood Expressions Received: <%= @user.posts.joins(:likes).count %></li>
+
+
+<%= link_to "Edit Profile", edit_user_registration_path, class: "btn btn-primary" %>
 <div class="container mt-5">
   <div class="row">
     <div class="col-12">
