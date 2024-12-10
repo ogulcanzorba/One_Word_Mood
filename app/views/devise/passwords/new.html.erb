@@ -1,28 +1,29 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <div class="card shadow-sm">
-        <div class="card-header text-center bg-info text-white">
+      <div class="card shadow" style="box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); transition: box-shadow 0.3s;">
+        <div class="card-header text-center" style="background-color: #59b396; color: white;">
           <h2>Forgot Your Password?</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body bg-light">
           <p class="text-muted text-center">Enter your email below, and we'll send you instructions to reset your password.</p>
 
           <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "needs-validation", novalidate: true }) do |f| %>
             <%= render "devise/shared/error_messages", resource: resource %>
 
             <div class="form-group mb-4">
-              <%= f.label :email, "Email", class: "form-label" %>
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Enter your email address" %>
+              <%= f.label :email, "Email", class: "form-label fw-semibold" %>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control rounded-3", placeholder: "Enter your email address" %>
             </div>
 
             <div class="d-grid">
-              <%= f.submit "Send Reset Instructions", class: "btn btn-info btn-block" %>
+              <%= f.submit "Send Reset Instructions", class: "btn btn-block rounded-pill grow-button", style: "background-color: #59b396; color: white;" %>
             </div>
           <% end %>
         </div>
         <div class="card-footer text-center">
-          <%= render "devise/shared/links" %>
+          <%= link_to "Log in", new_session_path(resource_name), class: "text-decoration-none hover-link", style: "color: #3f51b5;" %><br>
+          <%= link_to "Sign up", new_registration_path(resource_name), class: "text-decoration-none hover-link", style: "color: #3f51b5;" %>
         </div>
       </div>
     </div>

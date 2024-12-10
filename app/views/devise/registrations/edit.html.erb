@@ -1,17 +1,17 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <div class="card shadow-sm">
-        <div class="card-header text-center bg-warning text-white">
-          <h2>Edit <%= resource_name.to_s.humanize %></h2>
+      <div class="card shadow-sm border-0">
+        <div class="card-header text-center bg-success text-white">
+          <h2 class="fw-bold"><%= resource_name.to_s.humanize %> Settings</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body bg-light">
           <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "needs-validation", novalidate: true }) do |f| %>
             <%= render "devise/shared/error_messages", resource: resource %>
 
             <div class="form-group mb-3">
-              <%= f.label :email, "Email", class: "form-label" %>
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Update your email" %>
+              <%= f.label :email, "Email", class: "form-label fw-semibold" %>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control rounded-3", placeholder: "Update your email" %>
             </div>
 
             <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -21,41 +21,41 @@
             <% end %>
 
             <div class="form-group mb-3">
-              <%= f.label :password, "New Password", class: "form-label" %>
+              <%= f.label :password, "New Password", class: "form-label fw-semibold" %>
               <small class="form-text text-muted">(Leave blank if you don't want to change it)</small>
-              <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "New password" %>
+              <%= f.password_field :password, autocomplete: "new-password", class: "form-control rounded-3", placeholder: "New password" %>
               <% if @minimum_password_length %>
                 <small class="form-text text-muted"><%= @minimum_password_length %> characters minimum</small>
               <% end %>
             </div>
 
             <div class="form-group mb-3">
-              <%= f.label :password_confirmation, "Confirm New Password", class: "form-label" %>
-              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "Re-enter your new password" %>
+              <%= f.label :password_confirmation, "Confirm New Password", class: "form-label fw-semibold" %>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control rounded-3", placeholder: "Re-enter your new password" %>
             </div>
 
             <div class="form-group mb-4">
-              <%= f.label :current_password, "Current Password", class: "form-label" %>
+              <%= f.label :current_password, "Current Password", class: "form-label fw-semibold" %>
               <small class="form-text text-muted">(We need your current password to confirm your changes)</small>
-              <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", placeholder: "Enter your current password" %>
+              <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control rounded-3", placeholder: "Enter your current password" %>
             </div>
 
             <div class="d-grid">
-              <%= f.submit "Update", class: "btn btn-warning btn-block" %>
+              <%= f.submit "Update", class: "btn btn-success btn-block rounded-pill" %>
             </div>
           <% end %>
         </div>
 
-        <div class="card-footer">
+        <div class="card-footer text-center bg-light border-top">
           <h3 class="text-danger">Cancel My Account</h3>
           <div class="mb-3">
             <p>Unhappy? You can cancel your account:</p>
             <%= button_to "Cancel My Account", registration_path(resource_name),
-                          class: "btn btn-danger",
+                          class: "btn btn-outline-danger rounded-pill",
                           data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" },
                           method: :delete %>
           </div>
-          <%= link_to "Back", :back, class: "btn btn-secondary" %>
+          <%= link_to "Back", :back, class: "btn btn-outline-secondary rounded-pill" %>
         </div>
       </div>
     </div>
