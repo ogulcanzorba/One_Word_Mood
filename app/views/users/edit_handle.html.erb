@@ -1,0 +1,10 @@
+<h2>Change Your Handle</h2>
+<%= form_with(model: @user, url: edit_handle_users_path, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :handle, "Enter a new handle" %>
+    <%= f.text_field :handle, class: "form-control", value: @user.handle %>
+  </div>
+  <%= f.submit "Update Handle", class: "btn btn-success grow-button mt-3" %>
+<% end %>
+
+

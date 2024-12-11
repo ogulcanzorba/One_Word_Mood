@@ -1,0 +1,9 @@
+<h2>Change Your Profile Picture</h2>
+<%= form_with(model: @user, url: edit_avatar_users_path, local: true, html: { multipart: true }) do |f| %>
+  <div class="form-group">
+    <%= f.label :avatar, "Upload a new profile picture" %>
+    <%= f.file_field :avatar, class: "form-control" %>
+  </div>
+  <%= f.submit "Update Picture", class: "btn btn-success grow-button mt-3" %>
+<% end %>
+

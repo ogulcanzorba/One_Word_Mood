@@ -60,6 +60,7 @@
     <orderEntry type="library" scope="PROVIDED" name="devise (v4.9.4, ruby-3.3.5-p100) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="drb (v2.2.1, ruby-3.3.5-p100) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.0, ruby-3.3.5-p100) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ffi (v1.17.0, ruby-3.3.5-p100) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.2.1, ruby-3.3.5-p100) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.14.6, ruby-3.3.5-p100) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="importmap-rails (v2.0.3, ruby-3.3.5-p100) [gem]" level="application" />
@@ -116,6 +117,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rubocop-rails-omakase (v1.0.0, ruby-3.3.5-p100) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.13.0, ruby-3.3.5-p100) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v2.3.2, ruby-3.3.5-p100) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sassc (v2.4.0, ruby-3.3.5-p100) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="securerandom (v0.3.2, ruby-3.3.5-p100) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="selenium-webdriver (v4.27.0, ruby-3.3.5-p100) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v4.2.1, ruby-3.3.5-p100) [gem]" level="application" />

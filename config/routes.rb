@@ -1,36 +1,37 @@
 Rails.application.routes.draw do
-  get "users/show"
   devise_for :users
-  get 'users/profile', to: 'users#profile', as: :user_profile
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-
+  # Devise custom sign-out route
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+
+  # Health status route
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/*
+  # PWA dynamic files
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  # Defines the root path route ("/")
+  # Root path
   root "posts#index"
 
-  # Keep routes for posts, but exclude the 'new' route.
-  resources :posts, except: [:new]  # Removed the 'new' action.
-  resources :posts do
+  # Posts routes
+  resources :posts, except: [:new] do
     member do
       post :same_mood
       delete :undo_same_mood
     end
   end
 
-  resources :users, only: [:show, :edit, :update]
-  resources :users, only: [:edit, :update] do
-    get 'profile', on: :collection
+  # Users routes
+  resources :users, only: [:show, :edit, :update] do
+    collection do
+      get 'profile', to: 'users#profile', as: :profile
+      get 'edit_avatar', to: 'users#edit_avatar', as: :edit_avatar
+      patch 'update_avatar', to: 'users#update_avatar', as: :update_avatar
+      get 'edit_handle', to: 'users#edit_handle', as: :edit_handle
+      patch 'update_handle', to: 'users#update_handle', as: :update_handle
+    end
   end
 end
-
