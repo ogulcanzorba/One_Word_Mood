@@ -10,5 +10,12 @@
       <jdbc-url>jdbc:sqlite:C:\Users\ogulc_n6a3w\Documents\GitHub\One_Word_Mood\storage\development.sqlite3</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="development" uuid="63cc6a8d-f1b0-4d24-ad17-74fb44aab43f">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\pelin\OneDrive\Belgeler\GitHub\One_Word_Mood\storage\development.sqlite3</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
