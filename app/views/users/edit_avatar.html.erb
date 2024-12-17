@@ -1,9 +1,15 @@
-<h2>Change Your Profile Picture</h2>
-<%= form_with(model: @user, url: edit_avatar_users_path, local: true, html: { multipart: true }) do |f| %>
-  <div class="form-group">
-    <%= f.label :avatar, "Upload a new profile picture" %>
-    <%= f.file_field :avatar, class: "form-control" %>
-  </div>
-  <%= f.submit "Update Picture", class: "btn btn-success grow-button mt-3" %>
-<% end %>
+<div class="container mt-5">
+  <h2 class="text-center section-title">Change Your Profile Picture</h2>
 
+  <div class="card shadow-lg p-4 mx-auto w-50">
+    <%= form_with(model: @user, url: edit_avatar_users_path, local: true, html: { multipart: true }) do |f| %>
+      <div class="form-group mb-3">
+        <%= f.label :avatar, "Upload a new profile picture", class: "form-label" %>
+        <%= f.file_field :avatar, class: "form-control shadow-sm" %>
+      </div>
+      <div class="text-center">
+        <%= f.submit "Update Picture", class: "btn btn-success grow-button mt-3 w-50" %>
+      </div>
+    <% end %>
+  </div>
+</div>

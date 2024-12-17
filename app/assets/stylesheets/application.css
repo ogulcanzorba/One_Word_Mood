@@ -69,3 +69,152 @@
     transform-origin: left;
     transition: transform 0.3s ease;
 }
+/* my profile */
+
+/* General Styles */
+.section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #444;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-details p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+/* Cards */
+.profile-card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons */
+.btn-outline-info,
+.btn-outline-primary,
+.btn-outline-secondary {
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-info:hover {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.grow-button {
+    transition: transform 0.2s ease;
+}
+
+.grow-button:hover {
+    transform: scale(1.05);
+}
+
+/* Forms */
+.form-control {
+    border-radius: 10px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .w-50 {
+        width: 100% !important;
+    }
+
+    .profile-heading {
+        font-size: 2rem;
+    }
+}
+
+/* application.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+
+
+.btn {
+    border-radius: 50px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.grow-button {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.rounded-circle {
+    border: 2px solid #ffffff;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mb-3 {
+    margin-bottom: 1rem;
+}
+.profile-tabs .nav-tabs .nav-link {
+    font-weight: bold;
+    color: #555;
+}
+
+.profile-tabs .nav-tabs .nav-link.active {
+    color: #000;
+    border-bottom: 3px solid #000;
+}
+/* Sadece profildeki kartlara özel stil */
+.profile-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
