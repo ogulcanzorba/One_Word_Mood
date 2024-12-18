@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update, :follow, :unfollow]
+  before_action :set_current_user, only: [:update,:edit,:edit_avatar, :update_avatar, :edit_handle, :update_handle,:follow,:unfollow]
 
-  
+  def set_current_user
+    @user = current_user
+  end
   def profile
     @user = current_user
     @own_posts = @user.posts.order(created_at: :desc)
@@ -30,27 +32,61 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit_avatar
+  end
+
+  def update_avatar
+    if @user.update(user_params)
+      redirect_to profile_users_path, notice: "Profile picture updated successfully."
+    else
+      render :edit_avatar
+    end
+  end
+
+  def edit_handle
+  end
+
+  def update_handle
+    if @user.update(user_params)
+      redirect_to profile_users_path, notice: "Handle updated successfully."
+    else
+      render :edit_handle
+    end
+  end
+
   def follow
-    current_user.follow(@user)
-    redirect_to users_path, notice: "You are now following #{@user.email}."
+    @user = User.find(params[:id])
+    if current_user.follow(@user)
+      redirect_to users_path, notice: "You are now following #{@user.handle}."
+    else
+      redirect_to users_path, alert: "Unable to follow this user."
+    end
   end
 
   def unfollow
-    @user = User.find(params[:id]) # Takipten çıkılacak kullanıcıyı bul
-    if current_user.unfollow(@user) # Modeldeki `unfollow` metodu çağrılır
-      redirect_to users_path, notice: "You have unfollowed #{@user.email}."
+    @user = User.find(params[:id])
+    if current_user.unfollow(@user)
+      redirect_to users_path, notice: "You have unfollowed #{@user.handle}."
     else
-      redirect_to users_path, alert: "Failed to unfollow the user."
+      redirect_to users_path, alert: "Unable to unfollow this user."
     end
   end
+
 
 
   private
 
   def set_user
-    Rails.logger.debug "PARAMS[:id]: #{params[:id]}"
-    @user = User.find(params[:id])
+    @user = if params[:id]
+              User.find_by(id: params[:id])
+            else
+              current_user
+            end
+    unless @user
+      redirect_to users_path, alert: "User not found."
+    end
   end
+
 
   def user_params
     params.require(:user).permit(:avatar, :handle, :email, :password)

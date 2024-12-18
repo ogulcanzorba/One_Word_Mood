@@ -1,8 +1,10 @@
+edit_handle.html.erb:
+
 <div class="container mt-5">
   <h2 class="text-center section-title">Change Your Handle</h2>
 
   <div class="card shadow-lg p-4 mx-auto w-50">
-    <%= form_with(model: @user, url: edit_handle_users_path, local: true) do |f| %>
+    <%= form_with(model: @user, url: update_handle_user_path(@user), method: :patch, local: true) do |f| %>
       <div class="form-group">
         <%= f.label :handle, "Enter a new handle" %>
         <%= f.text_field :handle, class: "form-control", value: @user.handle %>
