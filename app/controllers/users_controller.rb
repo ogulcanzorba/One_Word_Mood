@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:edit_avatar, :update_avatar, :edit_handle, :update_handle, :edit, :update]
 
+  
   def profile
     @user = current_user
     @own_posts = current_user.posts.order(created_at: :desc)
