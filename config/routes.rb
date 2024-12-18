@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
 
+  # Root path
+  root "posts#index"
+
   # Health status route
   get "up" => "rails/health#show", as: :rails_health_check
 
@@ -13,8 +16,6 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  # Root path
-  root "posts#index"
 
   # Posts routes
   resources :posts, except: [:new] do
@@ -25,13 +26,18 @@ Rails.application.routes.draw do
   end
 
   # Users routes
-  resources :users, only: [:show, :edit, :update] do
+  resources :users, only: [:index, :show, :edit, :update] do
     collection do
-      get 'profile', to: 'users#profile', as: :profile
+      get 'profile'
       get 'edit_avatar', to: 'users#edit_avatar', as: :edit_avatar
       patch 'update_avatar', to: 'users#update_avatar', as: :update_avatar
       get 'edit_handle', to: 'users#edit_handle', as: :edit_handle
       patch 'update_handle', to: 'users#update_handle', as: :update_handle
+      get 'users/show', to: 'users#show'
+    end
+    member do
+      post 'follow'
+      delete 'unfollow', to: 'users#unfollow'
     end
   end
 end

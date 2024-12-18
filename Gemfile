@@ -61,3 +61,6 @@ gem "devise", "~> 4.9"
 gem "kaminari"
 
 gem "sassc"
+
+gem 'turbo-rails'
+gem 'stimulus-rails'

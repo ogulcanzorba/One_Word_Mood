@@ -3,13 +3,11 @@
 
   <div class="card shadow-lg p-4 mx-auto w-50">
     <%= form_with(model: @user, url: edit_handle_users_path, local: true) do |f| %>
-      <div class="form-group mb-3">
-        <%= f.label :handle, "Enter a new handle", class: "form-label" %>
-        <%= f.text_field :handle, class: "form-control shadow-sm", value: @user.handle %>
+      <div class="form-group">
+        <%= f.label :handle, "Enter a new handle" %>
+        <%= f.text_field :handle, class: "form-control", value: @user.handle %>
       </div>
-      <div class="text-center">
-        <%= f.submit "Update Handle", class: "btn btn-success grow-button mt-3 w-50" %>
-      </div>
+      <%= f.submit "Update Handle", class: "btn btn-success grow-button mt-3" %>
     <% end %>
   </div>
 </div>
