@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     get '/users/sign_out' => 'devise/sessions#destroy'
   end
-
+  get 'followed_posts', to: 'posts#followed_posts', as: 'followed_posts'
   # Root path
   root "posts#index"
 
