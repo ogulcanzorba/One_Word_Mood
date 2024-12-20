@@ -1,18 +1,18 @@
-<h1>Kullanıcı Listesi</h1>
+<h1>User List</h1>
 
 <% @users.each do |user| %>
   <div>
-    <p><strong>Ad:</strong> <%= user.name || "İsim belirtilmemiş" %></p>
+    <p><strong>Name:</strong> <%= user.name || "Undefined Name" %></p>
     <p><strong>Email:</strong> <%= user.email %></p>
-    <p><strong>Takipçi Sayısı:</strong> <%= user.followers_count %></p>
-    <p><strong>Takip Edilen Sayısı:</strong> <%= user.following_count %></p>
-    <%= link_to 'Profili Gör', user_path(user), class: 'btn btn-primary' %>
+    <p><strong>Follower Count:</strong> <%= user.followers_count %></p>
+    <p><strong>Following Count:</strong> <%= user.following.count %></p>
+    <%= link_to 'See Profile', user_path(user), class: 'btn btn-primary' %>
 
     <% if current_user.following?(user) %>
-      <%= link_to 'Takipten Çık', unfollow_user_path(user), method: :delete, class: 'btn btn-danger' %>
+      <%= link_to 'Unfollow', unfollow_user_path(user), method: :delete, class: 'btn btn-danger' %>
     <% else %>
       <%= form_with(url: follow_user_path(user), method: :post, local: true) do %>
-        <%= submit_tag 'Takip Et', class: 'btn btn-success' %>
+        <%= submit_tag 'Follow', class: 'btn btn-success' %>
       <% end %>
     <% end %>
   </div>

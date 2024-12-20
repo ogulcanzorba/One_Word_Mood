@@ -17,6 +17,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = User.find(params[:id])
     @own_posts = @user.posts
     @saved_posts = @user.saved_posts
   end
@@ -65,11 +66,9 @@ class UsersController < ApplicationController
 
   def unfollow
     @user = User.find(params[:id])
-    if current_user.unfollow(@user)
-      redirect_to users_path, notice: "You have unfollowed #{@user.handle}."
-    else
-      redirect_to users_path, alert: "Unable to unfollow this user."
-    end
+    current_user.unfollow(@user)
+    redirect_to users_path, notice: "You have unfollowed this user."
+  end
   end
 
 
@@ -91,7 +90,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:avatar, :handle, :email, :password)
   end
-end
+
 
 def delete
   @user = User.find(params[:id])

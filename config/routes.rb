@@ -32,7 +32,8 @@ Rails.application.routes.draw do
       get 'edit_handle', to: 'users#edit_handle', as: :edit_handle
       patch 'update_handle', to: 'users#update_handle', as: :update_handle
       post 'follow'
-      delete 'unfollow', to: 'users#unfollow'
+      delete 'unfollow'
+      get 'unfollow', to: 'users#unfollow'
     end
 
     collection do
