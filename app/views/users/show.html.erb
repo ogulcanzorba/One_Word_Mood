@@ -1,2 +1,48 @@
-<h1>All Users</h1>
+<h1><%= @user.handle %>'s Profile</h1>
 
+<div class="profile-container">
+  <div class="profile-header">
+    <%= image_tag @user.avatar_url, size: "150x150", class: "rounded-circle mb-3" %>
+    <h1><%= @user.name %> (@<%= @user.handle %>)</h1>
+    <p>Member since <%= @user.created_at.strftime('%B %d, %Y') %></p>
+  </div>
+
+  <div class="profile-stats">
+    <span><strong>Followers:</strong> <%= @user.followers.count %></span>
+    <span><strong>Following:</strong> <%= @user.following.count %></span>
+  </div>
+
+  <div class="profile-email">
+    <strong>Email:</strong> <%= @user.email %>
+  </div>
+
+  <div class="profile-posts">
+    <% @own_posts.each do |post| %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title"><%= post.mood_word %></h5>
+        <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+        <p>Posted By: <%= post.user&.handle || "Unknown User" %></p>
+        <p class="card-text">Moods Expressed: <%= post.likes.count %></p>
+      </div>
+    </div>
+  </div>
+  <div class="saved-posts">
+    <h2>Saved Posts:</h2>
+     <% if @liked_posts.present? && @liked_posts.any? %>
+          <% @liked_posts.each do |post| %>
+        <div class="card mb-3">
+           <div class="card-body">
+             <h5 class="card-title"><%= post.mood_word %></h5>
+             <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+             <p>Posted By: <%= post.user&.handle || "Unknown User" %></p>
+             <p class="card-text">Moods Expressed: <%= post.likes.count %></p>
+           </div>
+        </div>
+      <% end %>
+    <% else %>
+          <p class="text-muted">This user has not liked any posts.</p>
+    <% end %>
+  </div>
+  </div>
+<%end %>
