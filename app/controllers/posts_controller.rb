@@ -85,7 +85,10 @@ class PostsController < ApplicationController
     end
     redirect_to posts_path
   end
-
+  def followed_posts
+    following_users = current_user.following
+    @posts = Post.where(user: following_users).order(created_at: :desc)
+  end
   private
 
   def set_post
