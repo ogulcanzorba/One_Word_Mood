@@ -1,13 +1,41 @@
+require "net/http"
+require "json"
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_post, only: [:edit, :update, :destroy, :same_mood, :undo_same_mood]
 
-
+  GIPHY_API_KEY = "BdsOE5YV7jCUVT4vg8sxsHHF6ZzW8czO"
   def index
     @post = Post.new # For the new post form
     @posts = Post.includes(:user).order(updated_at: :desc).page(params[:page]).per(4)
     Rails.logger.warn("No posts found") if @posts.empty?
   end
+
+  def search_gif
+    search_query = params[:query]
+
+    if search_query.blank?
+      render json: { error: "Query cannot be blank" }, status: :bad_request
+      return
+    end
+
+    url = URI("https://api.giphy.com/v1/gifs/search?api_key=#{GIPHY_API_KEY}&q=#{CGI.escape(search_query)}&limit=4")
+
+    begin
+      response = Net::HTTP.get(url)
+      gifs = JSON.parse(response)["data"]
+
+      render json: gifs.map { |gif| { url: gif["images"]["fixed_height"]["url"], title: gif["title"] } }
+    rescue JSON::ParserError => e
+      Rails.logger.error("Failed to parse Giphy API response: #{e.message}")
+      render json: { error: "Failed to fetch GIFs from Giphy" }, status: :internal_server_error
+    rescue StandardError => e
+      Rails.logger.error("Unexpected error: #{e.message}")
+      render json: { error: "Unexpected server error" }, status: :internal_server_error
+    end
+  end
+
+
 
   def show
     @post = Post.find_by(id: params[:id])
@@ -24,7 +52,7 @@ class PostsController < ApplicationController
     @post.user = current_user # Assign the current user to the post
 
     if @post.save
-      redirect_to posts_path, notice: 'Post successfully created.' # Redirect to index to display posts
+      redirect_to posts_path, notice: "Post successfully created." # Redirect to index to display posts
     else
       @posts = Post.page(params[:page]).per(4) # Adjust number per page as needed
       render :index # If validation fails, show the index with the form again
@@ -55,9 +83,9 @@ class PostsController < ApplicationController
 
     if @post
       @post.destroy
-      redirect_to posts_path, notice: 'Post was successfully deleted.'
+      redirect_to posts_path, notice: "Post was successfully deleted."
     else
-      redirect_to posts_path, alert: 'You are not authorized to delete this post.'
+      redirect_to posts_path, alert: "You are not authorized to delete this post."
     end
   end
 
@@ -85,7 +113,10 @@ class PostsController < ApplicationController
     end
     redirect_to posts_path
   end
-
+  def followed_posts
+    following_users = current_user.following
+    @posts = Post.where(user: following_users).order(created_at: :desc)
+  end
   private
 
   def set_post
@@ -93,6 +124,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:mood_word, :content)
+    params.require(:post).permit(:mood_word, :content, :gif_url)
   end
 end

@@ -11,9 +11,9 @@ gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
+gem "turbo-rails", ">= 1.1"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails"
+gem "stimulus-rails", ">= 1.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
@@ -62,5 +62,7 @@ gem "kaminari"
 
 gem "sassc"
 
-gem 'turbo-rails'
-gem 'stimulus-rails'
+gem "ostruct"
+gem 'faraday'
+gem 'faraday_middleware', '~> 1.0'
+gem 'dotenv-rails', groups: [:development, :test]
