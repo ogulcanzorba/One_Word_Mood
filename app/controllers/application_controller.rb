@@ -2,13 +2,11 @@ class ApplicationController < ActionController::Base
   include Devise::Controllers::Helpers
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern  # Commented out or ensure this method is defined
 
-  respond_to :json
-  def search_gif
-    # Your logic
-  end
+  # Remove the commented-out or unsupported line unless custom code is written to handle browser version checking
+  # allow_browser versions: :modern  # If this is unnecessary, remove it
+
+  # Global error handling, filters, etc., can go here.
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:handle])

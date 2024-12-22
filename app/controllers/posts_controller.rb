@@ -14,24 +14,39 @@ class PostsController < ApplicationController
   def search_gif
     search_query = params[:query]
 
-    if search_query.blank?
-      render json: { error: "Query cannot be blank" }, status: :bad_request
-      return
-    end
+    # Respond to JSON format explicitly
+    respond_to do |format|
+      format.json do
+        if search_query.blank?
+          render json: { error: "Query cannot be blank" }, status: :bad_request
+          return
+        end
 
-    url = URI("https://api.giphy.com/v1/gifs/search?api_key=#{GIPHY_API_KEY}&q=#{CGI.escape(search_query)}&limit=4")
+        url = URI("https://api.giphy.com/v1/gifs/search?api_key=#{GIPHY_API_KEY}&q=#{CGI.escape(search_query)}&limit=4")
 
-    begin
-      response = Net::HTTP.get(url)
-      gifs = JSON.parse(response)["data"]
+        begin
+          response = Net::HTTP.get(url)
 
-      render json: gifs.map { |gif| { url: gif["images"]["fixed_height"]["url"], title: gif["title"] } }
-    rescue JSON::ParserError => e
-      Rails.logger.error("Failed to parse Giphy API response: #{e.message}")
-      render json: { error: "Failed to fetch GIFs from Giphy" }, status: :internal_server_error
-    rescue StandardError => e
-      Rails.logger.error("Unexpected error: #{e.message}")
-      render json: { error: "Unexpected server error" }, status: :internal_server_error
+          if response.blank?
+            render json: { error: "Empty response from Giphy API" }, status: :internal_server_error
+            return
+          end
+
+          gifs = JSON.parse(response)["data"]
+
+          if gifs.nil? || gifs.empty?
+            render json: { error: "No GIFs found for your search" }, status: :not_found
+          else
+            render json: gifs.map { |gif| { url: gif["images"]["fixed_height"]["url"], title: gif["title"] } }
+          end
+        rescue JSON::ParserError => e
+          Rails.logger.error("Failed to parse Giphy API response for query '#{search_query}': #{e.message}")
+          render json: { error: "Failed to process the response from Giphy" }, status: :internal_server_error
+        rescue StandardError => e
+          Rails.logger.error("Unexpected error for query '#{search_query}': #{e.message}")
+          render json: { error: "Unexpected server error" }, status: :internal_server_error
+        end
+      end
     end
   end
 
