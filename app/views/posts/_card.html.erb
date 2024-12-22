@@ -24,6 +24,9 @@
     <div class="card-body">
       <h5 class="card-title">Mood Word</h5>
       <p class="card-text"><%= post.mood_word || "No Mood Word" %></p>
+      <% if post.gif_url.present? %>
+        <img src="<%= post.gif_url %>" alt="Mood GIF" class="img-fluid">
+      <% end %>
     </div>
     <div class="card-footer">
       <small class="text-muted">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></small>
