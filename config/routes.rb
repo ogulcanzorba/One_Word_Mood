@@ -3,9 +3,9 @@ Rails.application.routes.draw do
 
   # Devise custom sign-out route
   devise_scope :user do
-    get '/users/sign_out' => 'devise/sessions#destroy'
+    get "/users/sign_out" => "devise/sessions#destroy"
   end
-  get 'followed_posts', to: 'posts#followed_posts', as: 'followed_posts'
+  get "followed_posts", to: "posts#followed_posts", as: "followed_posts"
   # Root path
   root "posts#index"
 
@@ -17,27 +17,34 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Posts routes
-  resources :posts, except: [:new] do
+  get "/posts/new", to: "posts#new", as: "new_post"
+  resources :posts do
     member do
       post :same_mood
       delete :undo_same_mood
     end
+
+    collection do
+      get :search_gif
+    end
   end
+
+
 
   # Users routes
   resources :users, only: [:index, :show, :edit, :update] do
     member do
-      get 'edit_avatar', to: 'users#edit_avatar', as: :edit_avatar
-      patch 'update_avatar', to: 'users#update_avatar', as: :update_avatar
-      get 'edit_handle', to: 'users#edit_handle', as: :edit_handle
-      patch 'update_handle', to: 'users#update_handle', as: :update_handle
-      post 'follow'
-      delete 'unfollow'
-      get 'unfollow', to: 'users#unfollow'
+      get "edit_avatar", to: "users#edit_avatar", as: :edit_avatar
+      patch "update_avatar", to: "users#update_avatar", as: :update_avatar
+      get "edit_handle", to: "users#edit_handle", as: :edit_handle
+      patch "update_handle", to: "users#update_handle", as: :update_handle
+      post "follow"
+      delete "unfollow"
+      get "unfollow", to: "users#unfollow"
     end
 
     collection do
-      get 'profile'
+      get "profile"
     end
   end
 
