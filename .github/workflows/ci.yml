@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Set execute permissions on bin files
+        run: chmod +x bin/*
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
