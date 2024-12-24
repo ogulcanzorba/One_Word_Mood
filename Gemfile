@@ -66,3 +66,9 @@ gem "ostruct"
 gem 'faraday'
 gem 'faraday_middleware', '~> 1.0'
 gem 'dotenv-rails', groups: [:development, :test]
+group :development do
+  gem 'brakeman', require: false
+end
+group :development do
+  gem 'rubocop', require: false
+end
