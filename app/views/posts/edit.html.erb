@@ -1,7 +1,86 @@
+<h2 class="text-center my-4">Edit Your Post</h2>
 
-<h1>Edit Post</h1>
-<%= form_for @post do |f| %>
-<%= f.label :mood_word %>
-<%= f.text_field :mood_word %>
-<%= f.submit "Update Post" %>
+<%= form_with(model: @post, local: true, class: "mb-4") do |form| %>
+  <% if @post.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading"><%= pluralize(@post.errors.count, "error") %> prevented this post from being saved:</h4>
+      <ul>
+        <% @post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :mood_word, "Mood Word", class: "form-label" %>
+    <%= form.text_field :mood_word, class: "form-control", id: "mood_word_input" %>
+  </div>
+
+  <div id="gif_search" class="mb-3">
+    <label for="gif_search_input">Search for a GIF:</label>
+    <input type="text" id="gif_search_input" class="form-control" placeholder="Search GIFs..." />
+    <button type="button" id="search_gif_button" class="btn btn-secondary mt-2">Search GIFs</button>
+    <div id="gif_results" class="mt-2"></div>
+  </div>
+
+  <% if @post.gif_url.present? %>
+    <div class="mb-3">
+      <p>Currently selected GIF:</p>
+      <img src="<%= @post.gif_url %>" alt="Current GIF" style="width: 150px; border: 2px solid blue;" id="current_gif" />
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :gif_url, id: "gif_url", value: @post.gif_url %>
+
+  <div class="d-grid gap-2">
+    <%= form.submit "Update Post", class: "btn btn-primary" %>
+  </div>
 <% end %>
+
+<script>
+    document.getElementById('search_gif_button').addEventListener('click', function () {
+        let searchTerm = document.getElementById('gif_search_input').value;
+
+        if (searchTerm.length >= 3) {
+            fetch(`/posts/search_gif?query=${searchTerm}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    let gifResults = document.getElementById('gif_results');
+                    gifResults.innerHTML = ""; // Clear previous results
+
+                    data.forEach(gif => {
+                        let gifImg = document.createElement('img');
+                        gifImg.src = gif.url;
+                        gifImg.alt = gif.title;
+                        gifImg.style.width = "100px";
+                        gifImg.style.cursor = "pointer";
+                        gifImg.classList.add("gif-option");
+
+                        gifImg.addEventListener('click', function () {
+                            document.getElementById('gif_url').value = gif.url; // Set hidden field
+                            document.querySelectorAll('.gif-option').forEach(img => img.style.border = "none");
+                            gifImg.style.border = "2px solid blue"; // Highlight selected GIF
+
+                            let currentGif = document.getElementById('current_gif');
+                            if (currentGif) currentGif.src = gif.url; // Update displayed GIF
+                        });
+
+                        gifResults.appendChild(gifImg);
+                    });
+                })
+                .catch(error => {
+                    let gifResults = document.getElementById('gif_results');
+                    gifResults.innerHTML = `<p class="text-danger">Error fetching GIFs: ${error.message}</p>`;
+                    console.error("Fetch Error:", error);
+                });
+        } else {
+            alert("Please enter at least 3 characters to search for GIFs.");
+        }
+    });
+</script>

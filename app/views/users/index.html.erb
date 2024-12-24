@@ -1,21 +1,35 @@
-<h1>User List</h1>
+<h1 class="text-center my-5 ">User List</h1>
 
-<% @users.each do |user| %>
-  <div>
-    <p><strong>Name:</strong> <%= user.name || "Undefined Name" %></p>
-    <p><strong>Email:</strong> <%= user.email %></p>
-    <p><strong>Follower Count:</strong> <%= user.followers_count %></p>
-    <p><strong>Following Count:</strong> <%= user.following.count %></p>
-    <%= link_to 'See Profile', user_path(user), class: 'btn btn-primary' %>
-
-    <% if current_user.following?(user) %>
-      <%= link_to 'Unfollow', unfollow_user_path(user), method: :delete, class: 'btn btn-danger' %>
-    <% else %>
-      <%= form_with(url: follow_user_path(user), method: :post, local: true) do %>
-        <%= submit_tag 'Follow', class: 'btn btn-success' %>
-      <% end %>
-    <% end %>
+<%= form_with(url: users_path, method: :get, local: true, class: 'mb-4 d-flex justify-content-center') do %>
+  <div class="input-group w-50">
+    <input type="text" name="search" class="form-control rounded-pill" placeholder="Search by handle" value="<%= params[:search] %>">
+    <button class="btn btn-outline-primary rounded-pill" type="submit">Search</button>
   </div>
-  <hr>
 <% end %>
 
+<div class="container mt-5">
+  <div class="row">
+    <% @users.each do |user| %>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title text-dark"><%= user.handle || "Undefined Handle" %></h5>
+            <p class="card-text"><strong>Email:</strong> <%= user.email %></p>
+            <p class="card-text"><strong>Follower Count:</strong> <%= user.followers_count %></p>
+            <p class="card-text"><strong>Following Count:</strong> <%= user.following.count %></p>
+
+            <%= link_to 'See Profile', user_path(user), class: 'btn btn-secondary me-2 rounded-pill' %>
+
+            <% if current_user.following?(user) %>
+              <%= link_to 'Unfollow', unfollow_user_path(user), method: :delete, class: 'btn btn-danger rounded-pill' %>
+            <% else %>
+              <%= form_with(url: follow_user_path(user), method: :post, local: true, class: 'd-inline') do %>
+                <%= submit_tag 'Follow', class: 'btn btn-success rounded-pill' %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

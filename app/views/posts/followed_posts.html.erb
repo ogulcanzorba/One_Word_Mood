@@ -1,4 +1,5 @@
 <h1>Posts from People You Follow</h1>
+
 <% if @posts.any? %>
   <% @posts.each do |post| %>
     <div class="card mb-3">
@@ -7,6 +8,13 @@
         <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
         <p>Posted By: <%= post.user&.handle || "Unknown User" %></p>
         <p class="card-text">Moods Expressed: <%= post.likes.count %></p>
+
+        <!-- Display GIF if available -->
+        <% if post.gif_url.present? %>
+          <div class="gif-container">
+            <img src="<%= post.gif_url %>" alt="GIF for mood" class="img-fluid" />
+          </div>
+        <% end %>
       </div>
     </div>
   <% end %>

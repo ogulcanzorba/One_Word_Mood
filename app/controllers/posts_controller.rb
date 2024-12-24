@@ -53,14 +53,15 @@ class PostsController < ApplicationController
 
 
   def show
-    @post = Post.find_by(id: params[:id])
-
-    if @post.nil?
-      redirect_to posts_path, alert: "Post not found."
-    elsif @post.user.nil?
-      flash[:alert] = "This post does not have an associated user."
+    @user = User.find_by(id: params[:id])
+    if @user.nil?
+      redirect_to posts_path, alert: "User not found."
+    else
+      @own_posts = @user.posts.order(created_at: :desc)
+      @liked_posts = Post.joins(:likes).where(likes: { user_id: @user.id }).order(created_at: :desc)
     end
   end
+
 
   def create
     @post = Post.new(post_params)
@@ -98,11 +99,12 @@ class PostsController < ApplicationController
 
     if @post
       @post.destroy
-      redirect_to posts_path, notice: "Post was successfully deleted."
+      redirect_back fallback_location: posts_path, notice: "Post was successfully deleted."
     else
-      redirect_to posts_path, alert: "You are not authorized to delete this post."
+      redirect_back fallback_location: posts_path, alert: "You are not authorized to delete this post."
     end
   end
+
 
   def same_mood
     like = @post.likes.find_by(user: current_user)

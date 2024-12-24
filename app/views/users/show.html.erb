@@ -1,48 +1,106 @@
 <h1><%= @user.handle %>'s Profile</h1>
 
 <div class="profile-container">
+  <!-- User Information -->
   <div class="profile-header">
     <%= image_tag @user.avatar_url, size: "150x150", class: "rounded-circle mb-3" %>
     <h1><%= @user.name %> (@<%= @user.handle %>)</h1>
     <p>Member since <%= @user.created_at.strftime('%B %d, %Y') %></p>
   </div>
 
-  <div class="profile-stats">
-    <span><strong>Followers:</strong> <%= @user.followers.count %></span>
-    <span><strong>Following:</strong> <%= @user.following.count %></span>
-  </div>
-
-  <div class="profile-email">
-    <strong>Email:</strong> <%= @user.email %>
-  </div>
-
+  <!-- Posts -->
   <div class="profile-posts">
-    <% @own_posts.each do |post| %>
-    <div class="card mb-3">
-      <div class="card-body">
-        <h5 class="card-title"><%= post.mood_word %></h5>
-        <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
-        <p>Posted By: <%= post.user&.handle || "Unknown User" %></p>
-        <p class="card-text">Moods Expressed: <%= post.likes.count %></p>
-      </div>
-    </div>
-  </div>
-  <div class="saved-posts">
-    <h2>Saved Posts:</h2>
-     <% if @liked_posts.present? && @liked_posts.any? %>
-          <% @liked_posts.each do |post| %>
+    <h2>Posts by <%= @user.handle %>:</h2>
+    <% if @own_posts.present? %>
+      <% @own_posts.each do |post| %>
         <div class="card mb-3">
-           <div class="card-body">
-             <h5 class="card-title"><%= post.mood_word %></h5>
-             <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
-             <p>Posted By: <%= post.user&.handle || "Unknown User" %></p>
-             <p class="card-text">Moods Expressed: <%= post.likes.count %></p>
-           </div>
+          <div class="card-body">
+            <h5 class="card-title"><%= post.mood_word || "No Mood Word" %></h5>
+            <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+            <% if post.gif_url.present? %>
+              <img src="<%= post.gif_url %>" alt="GIF for mood" class="img-fluid" />
+            <% end %>
+          </div>
         </div>
       <% end %>
     <% else %>
-          <p class="text-muted">This user has not liked any posts.</p>
+      <p class="text-muted">No posts to display.</p>
     <% end %>
   </div>
+
+  <!-- Liked Posts -->
+  <div class="liked-posts">
+    <h2>Posts <%= @user.handle %> Expressed Mood On:</h2>
+    <% if @liked_posts.present? %>
+      <% @liked_posts.each do |post| %>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title"><%= post.mood_word %></h5>
+            <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+            <p>Posted By: <%= post.user&.handle || "Unknown User" %></p>
+            <% if post.gif_url.present? %>
+              <img src="<%= post.gif_url %>" alt="GIF for mood" class="img-fluid" />
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-muted">No liked posts to display.</p>
+    <% end %>
   </div>
-<%end %>
+</div>
+
+
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-stats, .profile-email {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-posts, .saved-posts {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .text-muted {
+        color: #6c757d;
+    }
+
+    .gif-container {
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+</style>
