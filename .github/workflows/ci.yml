@@ -10,29 +10,39 @@ on:
 jobs:
   scan_ruby:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Set execute permissions on bin files
-        run: chmod +x bin/*
+
+      - name: Set execute permissions on all bin files
+        run: chmod -R 755 bin/*
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.2'
+          ruby-version: '3.3.5'
           bundler-cache: true
+
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
 
   scan_js:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set execute permissions on all bin files
+        run: chmod -R 755 bin/*
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.2'
+          ruby-version: '3.3.5'
           bundler-cache: true
+
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
 
@@ -41,36 +51,46 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set execute permissions on all bin files
+        run: chmod -R 755 bin/*
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.2'
+          ruby-version: '3.3.5'
           bundler-cache: true
+
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
   test:
     runs-on: ubuntu-latest
-    services:
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
+
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
+
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set execute permissions on all bin files
+        run: chmod -R 755 bin/*
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.2'
+          ruby-version: '3.3.5'
           bundler-cache: true
+
+      - name: Clean and install gems
+        run: rm -rf vendor/bundle && bundle install
+
       - name: Run tests
         env:
           RAILS_ENV: test
-          REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare && bin/rails test test:system
+        run: bin/rails db:test:prepare test test:system --verbose
+
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
         if: failure()
