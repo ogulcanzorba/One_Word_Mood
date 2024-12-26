@@ -3,7 +3,9 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: 
+      - main
+      - hotfixes
 
 jobs:
   scan_ruby:
@@ -13,10 +15,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set execute permissions on all bin files
+        run: chmod +x bin/* || true
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: '3.3.5'
           bundler-cache: true
 
       - name: Scan for common Rails security vulnerabilities using static analysis
@@ -29,10 +34,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set execute permissions on all bin files
+        run: chmod +x bin/* || true
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: '3.3.5'
           bundler-cache: true
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
@@ -44,10 +52,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set execute permissions on all bin files
+        run: chmod +x bin/* || true
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: '3.3.5'
           bundler-cache: true
 
       - name: Lint code for consistent style
@@ -56,12 +67,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    # services:
-    #  redis:
-    #    image: redis
-    #    ports:
-    #      - 6379:6379
-    #    options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
@@ -69,17 +74,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set execute permissions on all bin files
+        run: chmod +x bin/* || true
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: '3.3.5'
           bundler-cache: true
+
+      - name: Clean and install gems
+        run: rm -rf vendor/bundle && bundle install
+
+      - name: Set up database and prepare tests
+        run: bin/rails db:create db:migrate
 
       - name: Run tests
         env:
           RAILS_ENV: test
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test test:system
+        run: bin/rails db:test:prepare test test:system --verbose
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
