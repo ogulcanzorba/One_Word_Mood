@@ -53,14 +53,15 @@ class PostsController < ApplicationController
 
 
   def show
-    @post = Post.find_by(id: params[:id])
-
-    if @post.nil?
-      redirect_to posts_path, alert: "Post not found."
-    elsif @post.user.nil?
-      flash[:alert] = "This post does not have an associated user."
+    @user = User.find_by(id: params[:id])
+    if @user.nil?
+      redirect_to posts_path, alert: "User not found."
+    else
+      @own_posts = @user.posts.order(created_at: :desc)
+      @liked_posts = Post.joins(:likes).where(likes: { user_id: @user.id }).order(created_at: :desc)
     end
   end
+
 
   def create
     @post = Post.new(post_params)
@@ -72,6 +73,7 @@ class PostsController < ApplicationController
       @posts = Post.page(params[:page]).per(4) # Adjust number per page as needed
       render :index # If validation fails, show the index with the form again
     end
+
   end
 
   def edit

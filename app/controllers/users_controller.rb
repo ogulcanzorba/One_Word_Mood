@@ -13,8 +13,13 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    if params[:search].present?
+      @users = User.where("handle LIKE ?", "%#{params[:search]}%")
+    else
+      @users = User.all
+    end
   end
+
 
   def show
     @user = User.find(params[:id])

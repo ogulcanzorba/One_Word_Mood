@@ -1,5 +1,12 @@
 <h1>User List</h1>
 
+<%= form_with(url: users_path, method: :get, local: true, class: 'mb-4 d-flex justify-content-center') do %>
+  <div class="input-group w-50">
+    <input type="text" name="search" class="form-control rounded-pill" placeholder="Search by handle" value="<%= params[:search] %>">
+    <button class="btn btn-outline-primary rounded-pill" type="submit">Search</button>
+  </div>
+<% end %>
+
 <% @users.each do |user| %>
   <div class="user-card">
     <!-- Profile Card Structure -->
@@ -10,6 +17,7 @@
       <% else %>
         <%= image_tag 'default_avatar.jpg', size: "150x150", class: "rounded-circle mb-3" %>
       <% end %>
+
       <!-- Display User Handle -->
       <h2><%= user.handle || "Undefined Name" %></h2>
       <p><%= user.followers_count %> followers &middot; <%= user.following.count %> following</p>
