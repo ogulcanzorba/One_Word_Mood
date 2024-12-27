@@ -106,6 +106,7 @@ class PostsController < ApplicationController
     end
   end
 
+
   def same_mood
     like = @post.likes.find_by(user: current_user)
 
