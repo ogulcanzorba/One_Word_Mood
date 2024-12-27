@@ -1,20 +1,29 @@
-<h1>Posts from People You Follow</h1>
+<h1 style="text-align: center;">Posts from People You Follow</h1>
+
 <% if @posts.any? %>
   <% @posts.each do |post| %>
-    <div class="card mb-3">
-      <div class="card-body">
-        <span>
-          <i class="fas fa-user-circle"></i> <%= post.user&.handle || "Unknown User" %>
-        </span>
-        <h5 class="card-title"><%= post.mood_word || "No Mood Word" %></h5>
+    <div class="card mb-3 position-relative"> <!-- position-relative eklendi -->
+      <div class="card-body text-center">
+        <!-- User Profile Picture and Handle -->
+        <div class="d-flex align-items-center">
+          <% if post.user&.avatar_url.present? %>
+            <%= image_tag post.user.avatar_url, size: "40x40", class: "rounded-circle me-2" %>
+          <% else %>
+            <%= image_tag 'default_avatar.jpg', size: "40x40", class: "rounded-circle me-2" %>
+          <% end %>
+          <span><%= post.user&.handle || "Unknown User" %></span>
+        </div>
+        <h5 class="card-title fs-1 font-monospace"><%= post.mood_word || "No Mood Word" %></h5>
         <% if post.gif_url.present? %>
           <img src="<%= post.gif_url %>" alt="Mood GIF" class="img-fluid">
         <% end %>
-          <p class="card-text">Mood Twins: <%= post.likes.count %></p>
+
+        <!-- Mood Twins badge moved to top-right -->
+        <p class="mood-twins">Mood Twins: <%= post.likes.count %></p>
       </div>
-        <div class="card-footer">
-          <small class="text-muted">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></small>
-        </div>
+      <div class="card-footer">
+        <small class="text-muted">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></small>
+      </div>
     </div>
   <% end %>
 <% else %>

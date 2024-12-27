@@ -1,11 +1,18 @@
-<h1>User List</h1>
+<h1 style="text-align: center;">User List</h1>
 
 <%= form_with(url: users_path, method: :get, local: true, class: 'mb-4 d-flex justify-content-center') do %>
-  <div class="input-group w-50">
-    <input type="text" name="search" class="form-control rounded-pill" placeholder="Search by handle" value="<%= params[:search] %>">
-    <button class="btn btn-outline-primary rounded-pill" type="submit">Search</button>
+  <div class="input-group w-75">
+    <input type="text" name="search"
+           class="form-control rounded-pill"
+           placeholder="Search by handle"
+           value="<%= params[:search] %>"
+           style="height: 40px; width: 80%; border-radius: 20px; padding: 0 15px;">
+    <button class="btn-hover color-8 rounded-pill"
+            type="submit"
+            style="height: 40px;">Search</button>
   </div>
 <% end %>
+
 
 <% @users.each do |user| %>
   <div class="user-card">

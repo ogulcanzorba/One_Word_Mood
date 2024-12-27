@@ -8,11 +8,11 @@
         <% else %>
           <%= image_tag 'default_avatar.jpg', size: "40x40", class: "rounded-circle me-2" %>
         <% end %>
-        <span><i class="fas fa-user-circle"></i> <%= post.user&.handle || "Unknown User" %></span>
+        <span><%= post.user&.handle || "Unknown User" %></span>
       </div>
 
       <!-- Mood Twins Count -->
-      <p class="m-0 mx-auto">Mood Twins: <%= post.likes.count %></p>
+      <p class="m-0 mx-auto moo">Mood Twins: <%= post.likes.count %></p>
 
       <!-- Same Mood/Undo Mood Button -->
       <% if post.likes.exists?(user: current_user) %>

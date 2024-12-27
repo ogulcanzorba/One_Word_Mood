@@ -1,6 +1,4 @@
-<h1>Edit Post</h1>
-
-<h2 class="text-center my-4">Edit Your Post</h2>
+<h1 class="text-center my-4">Edit Your Post</h1>
 
 <%= form_with(model: @post, local: true, class: "mb-4") do |form| %>
   <% if @post.errors.any? %>
@@ -36,7 +34,7 @@
   <%= form.hidden_field :gif_url, id: "gif_url", value: @post.gif_url %>
 
   <div class="d-grid gap-2">
-    <%= form.submit "Update Post", class: "btn btn-primary" %>
+    <%= form.submit "Update Post", class: "btn btn-primary btn-hover color-3" %>
   </div>
 <% end %>
 

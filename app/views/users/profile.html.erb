@@ -49,17 +49,67 @@
           box-shadow: 0 4px 6px rgba(116, 79, 168, 0.4); /* Reduced shadow intensity */
       }
 
-      .nav-tabs .nav-link {
-          color: #ffffff;
-          font-weight: 600;
+      .nav-tabs {
+          margin-top: 30px;
+          display: flex;
+          justify-content: center;
+          overflow: hidden; /* Prevents overflow of tab items */
+          position: relative; /* Required to position the border separately */
       }
 
+      .nav-tabs:after {
+          content: '';
+          position: absolute;
+          bottom: -8px; /* Moves the border slightly downward */
+          left: 0;
+          right: 0;
+          height: 3px;
+          background-color: rgba(224, 224, 224, 0.25); /* Change this to your desired border color */
+      }
+
+      .nav-tabs .nav-item {
+          margin: 0 15px;
+      }
+
+      .nav-tabs .nav-link {
+          color: #85a7f1; /* Light color for unselected tabs */
+          font-weight: 600;
+          text-transform: uppercase;
+          padding: 10px 20px;
+          border-radius: 30px; /* Rounded corners for the tabs */
+          border: 1px solid #6B8DD6;
+          background-color: transparent;
+          transition: background-color 0.3s, transform 0.3s ease-in-out;
+          overflow: hidden; /* Prevents overflow of tab items */
+          margin-bottom: 10px; /* Adds space below the buttons */
+      }
+
+      /* Hover Effect on Tab Links */
+      .nav-tabs .nav-link:hover {
+          background-color: #6B8DD6; /* Subtle hover effect */
+          color: #fff;
+          transform: scale(1); /* Slight scale on hover */
+          overflow: hidden; /* Prevents overflow of tab items */
+      }
+
+      /* Active Tab Styling */
       .nav-tabs .nav-link.active {
           color: #fff;
-          background-color: #6B8DD6;
-          border: none;
-          border-radius: 10px;
+          background-color: #4481eb; /* Different color for active tab */
+          border-radius: 30px; /* Ensure rounded corners stay on active tab */
+          border: 1px solid transparent;
+          box-shadow: 0 4px 6px rgba(65, 132, 234, 0.4); /* Light shadow effect for active tab */
+          position: relative;
+          z-index: 2; /* Keeps the active tab above the border */
       }
+
+
+
+      /* Tab Content Styling */
+      .tab-content {
+          margin-top: 30px;
+      }
+
       .card {
           display: flex;
           flex-direction: column;
@@ -113,7 +163,7 @@
       <a class="nav-link active" id="created-tab" data-bs-toggle="tab" href="#created">Your Posts</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="saved-tab" data-bs-toggle="tab" href="#saved">Posts You Expressed Mood On</a>
+      <a class="nav-link" id="saved-tab" data-bs-toggle="tab" href="#saved">Mood Twins</a>
     </li>
   </ul>
 
