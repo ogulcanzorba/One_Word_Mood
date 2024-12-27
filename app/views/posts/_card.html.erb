@@ -1,11 +1,20 @@
 <div class="col">
   <div class="card h-100">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <span>
-        <i class="fas fa-user-circle"></i> <%= post.user&.handle || "Unknown User" %>
-      </span>
+      <!-- User Profile Picture and Handle -->
+      <div class="d-flex align-items-center">
+        <% if post.user&.avatar_url.present? %>
+          <%= image_tag post.user.avatar_url, size: "40x40", class: "rounded-circle me-2" %>
+        <% else %>
+          <%= image_tag 'default_avatar.jpg', size: "40x40", class: "rounded-circle me-2" %>
+        <% end %>
+        <span><i class="fas fa-user-circle"></i> <%= post.user&.handle || "Unknown User" %></span>
+      </div>
+
+      <!-- Mood Twins Count -->
       <p class="m-0 mx-auto">Mood Twins: <%= post.likes.count %></p>
 
+      <!-- Same Mood/Undo Mood Button -->
       <% if post.likes.exists?(user: current_user) %>
         <%= button_to undo_same_mood_post_path(post), method: :delete, class: "btn btn-sm btn-undo-mood" do %>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -26,6 +35,7 @@
         <% end %>
       <% end %>
     </div>
+
     <div class="card-body text-center">
       <h5 class="card-title fs-1 font-monospace"><%= post.mood_word || "No Mood Word" %></h5>
       <br>
