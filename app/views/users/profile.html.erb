@@ -13,12 +13,12 @@
       }
 
       .profile-header {
-          background-color: #59b396;
+          background-color: rgba(130, 130, 130, 0.45);
           color: #fff;
           padding: 30px 0;
           text-align: center;
           border-radius: 15px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
       }
 
       .profile-header img {
@@ -35,7 +35,7 @@
       }
 
       .btn-custom {
-          background-color: #59b396;
+          background-image: linear-gradient(to right, #667eea, #6B8DD6); /* Muted gradient */
           color: #fff;
           border: none;
           border-radius: 20px;
@@ -45,26 +45,33 @@
       }
 
       .btn-custom:hover {
-          background-color: #47947c;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+          background-image: linear-gradient(to right, #6B8DD6, #764ba2); /* Subtle hover gradient */
+          box-shadow: 0 4px 6px rgba(116, 79, 168, 0.4); /* Reduced shadow intensity */
       }
 
       .nav-tabs .nav-link {
-          color: #59b396;
+          color: #ffffff;
           font-weight: 600;
       }
 
       .nav-tabs .nav-link.active {
           color: #fff;
-          background-color: #59b396;
+          background-color: #6B8DD6;
           border: none;
           border-radius: 10px;
       }
-
       .card {
-          border: none;
-          border-radius: 15px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+
+          border: 1px solid rgba(255, 255, 255, .25);
+          border-radius: 20px;
+          background-color: rgba(255, 255, 255, 0.45);
+          box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+
+          backdrop-filter: blur(15px);
       }
 
       .modal-content {
@@ -74,29 +81,10 @@
       }
 
       .modal-header {
-          background-color: #59b396;
+          background-color: #6B8DD6;
           color: #fff;
           border-top-left-radius: 15px;
           border-top-right-radius: 15px;
-      }
-
-      .modal-footer {
-          border-top: none;
-      }
-
-      .btn-primary {
-          background-color: #59b396;
-          border-color: #59b396;
-      }
-
-      .btn-secondary {
-          background-color: #47947c;
-          border-color: #47947c;
-      }
-
-      .btn-success {
-          background-color: #3b8064;
-          border-color: #3b8064;
       }
 
       .list-group-item {
@@ -106,7 +94,7 @@
 </head>
 
 <body>
-<div class="container mt-5">
+<div class="container mt-5 ">
   <!-- Profile Header -->
   <div class="profile-header">
     <div class="text-center">
@@ -130,21 +118,22 @@
   </ul>
 
   <!-- Tab Content -->
-  <div class="tab-content mt-3">
+  <div class="tab-content mt-3 ">
     <!-- Created Posts -->
-    <div class="tab-pane fade show active" id="created">
+    <div class="tab-pane fade show active " id="created">
       <% @own_posts.each do |post| %>
         <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title"><%= post.mood_word %></h5>
-            <p class="card-text">Posted on: <%= post.created_at.strftime("%d %B %Y") %></p>
-
+          <div class="card-body text-center">
+            <h5 class="card-title fs-1 font-monospace"><%= post.mood_word %></h5>
             <!-- Display GIF if available -->
             <% if post.gif_url.present? %>
               <div class="gif-container">
                 <img src="<%= post.gif_url %>" alt="GIF for mood" class="img-fluid" />
               </div>
             <% end %>
+          </div>
+          <div class="card-footer text-center">
+            <p class="card-text text-muted">Posted on: <%= post.created_at.strftime("%d %B %Y") %></p>
           </div>
         </div>
       <% end %>
@@ -154,18 +143,22 @@
     <div class="tab-pane fade" id="saved">
       <% @liked_posts.each do |post| %>
         <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title"><%= post.mood_word %></h5>
-            <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
-            <p>Posted By: <%= post.user&.handle || "Unknown User" %></p>
-            <p class="card-text">Moods Expressed: <%= post.likes.count %></p>
-
+          <div class="card-body text-center">
+            <h5 class="card-title fs-1 font-monospace"><%= post.mood_word %></h5>
+            <p class="card-text">Moods Twins: <%= post.likes.count %></p>
             <!-- Display GIF if available -->
             <% if post.gif_url.present? %>
               <div class="gif-container">
                 <img src="<%= post.gif_url %>" alt="GIF for mood" class="img-fluid" />
               </div>
             <% end %>
+            <br>
+            <span>
+             <i class="fas fa-user-circle"></i> <%= post.user&.handle || "Unknown User" %>
+            </span>
+          </div>
+          <div class="card-footer text-center">
+            <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
           </div>
         </div>
       <% end %>

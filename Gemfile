@@ -66,3 +66,4 @@ gem "ostruct"
 gem 'faraday'
 gem 'faraday_middleware', '~> 1.0'
 gem 'dotenv-rails', groups: [:development, :test]
+gem 'sassc-rails'

@@ -1,11 +1,11 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <div class="card shadow-sm border-0">
-        <div class="card-header text-center bg-success text-white">
+      <div class="card shadow" style="box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); transition: box-shadow 0.3s;">
+        <div class="card-header text-center" style="background-color: transparent; color: rgba(0,0,0,0.52);">
           <h2 class="fw-bold"><%= resource_name.to_s.humanize %> Settings</h2>
         </div>
-        <div class="card-body bg-light">
+        <div class="card-body" style="background-color: transparent;">
           <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "needs-validation", novalidate: true }) do |f| %>
             <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -41,12 +41,12 @@
             </div>
 
             <div class="d-grid">
-              <%= f.submit "Update", class: "btn btn-success btn-block rounded-pill" %>
+              <%= f.submit "Update", class: "btn btn-success btn-block rounded-pill", style: "background-image: linear-gradient(to right, #667eea, #764ba2, #6B8DD6, #8E37D7); color: white;" %>
             </div>
           <% end %>
         </div>
 
-        <div class="card-footer text-center bg-light border-top">
+        <div class="card-footer text-center">
           <h3 class="text-danger">Cancel My Account</h3>
           <div class="mb-3">
             <p>Unhappy? You can cancel your account:</p>

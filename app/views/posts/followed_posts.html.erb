@@ -3,13 +3,20 @@
   <% @posts.each do |post| %>
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="card-title"><%= post.mood_word %></h5>
-        <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
-        <p>Posted By: <%= post.user&.handle || "Unknown User" %></p>
-        <p class="card-text">Moods Expressed: <%= post.likes.count %></p>
+        <span>
+          <i class="fas fa-user-circle"></i> <%= post.user&.handle || "Unknown User" %>
+        </span>
+        <h5 class="card-title"><%= post.mood_word || "No Mood Word" %></h5>
+        <% if post.gif_url.present? %>
+          <img src="<%= post.gif_url %>" alt="Mood GIF" class="img-fluid">
+        <% end %>
+          <p class="card-text">Mood Twins: <%= post.likes.count %></p>
       </div>
+        <div class="card-footer">
+          <small class="text-muted">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></small>
+        </div>
     </div>
   <% end %>
 <% else %>
-  <p>You haven't followed anyone yet or no one has posted yet.</p>
+  <p>"Looks like you're flying solo—either you haven’t followed anyone yet, or your crew hasn’t dropped any posts. Time to shake things up!"</p>
 <% end %>
