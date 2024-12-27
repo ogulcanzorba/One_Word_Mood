@@ -1,23 +1,31 @@
-<h1>Posts from People You Follow</h1>
+<h1 style="text-align: center;">Posts from People You Follow</h1>
 
 <% if @posts.any? %>
   <% @posts.each do |post| %>
-    <div class="card mb-3">
-      <div class="card-body">
-        <h5 class="card-title"><%= post.mood_word %></h5>
-        <p class="card-text">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
-        <p>Posted By: <%= post.user&.handle || "Unknown User" %></p>
-        <p class="card-text">Moods Expressed: <%= post.likes.count %></p>
-
-        <!-- Display GIF if available -->
+    <div class="card mb-3 position-relative"> <!-- position-relative eklendi -->
+      <div class="card-body text-center">
+        <!-- User Profile Picture and Handle -->
+        <div class="d-flex align-items-center">
+          <% if post.user&.avatar_url.present? %>
+            <%= image_tag post.user.avatar_url, size: "40x40", class: "rounded-circle me-2" %>
+          <% else %>
+            <%= image_tag 'default_avatar.jpg', size: "40x40", class: "rounded-circle me-2" %>
+          <% end %>
+          <span><%= post.user&.handle || "Unknown User" %></span>
+        </div>
+        <h5 class="card-title fs-1 font-monospace"><%= post.mood_word || "No Mood Word" %></h5>
         <% if post.gif_url.present? %>
-          <div class="gif-container">
-            <img src="<%= post.gif_url %>" alt="GIF for mood" class="img-fluid" />
-          </div>
+          <img src="<%= post.gif_url %>" alt="Mood GIF" class="img-fluid">
         <% end %>
+
+        <!-- Mood Twins badge moved to top-right -->
+        <p class="mood-twins">Mood Twins: <%= post.likes.count %></p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Created At: <%= post.created_at.strftime("%B %d, %Y at %I:%M %p") %></small>
       </div>
     </div>
   <% end %>
 <% else %>
-  <p>You haven't followed anyone yet or no one has posted yet.</p>
+  <p>"Looks like you're flying solo—either you haven’t followed anyone yet, or your crew hasn’t dropped any posts. Time to shake things up!"</p>
 <% end %>

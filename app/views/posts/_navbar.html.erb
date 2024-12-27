@@ -1,6 +1,6 @@
-<nav class="navbar sticky-top navbar-expand-lg" style="background-color: #333333">
+<nav class="navbar sticky-top navbar-expand-lg" style="background: transparent; box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);">
   <div class="container-fluid">
-    <%= image_tag "logo.png", class:"navbar-brand", width: 40 %>
+    <%= image_tag "logo.png", class: "navbar-brand", width: 40 %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -10,12 +10,11 @@
           <%= link_to "Home Page", root_path, class:"nav-link active fw-semibold text-white" %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Explore Users', users_path,class:"nav-link active fw-semibold text-white" %>
+          <%= link_to 'Explore Users', users_path, class:"nav-link active fw-semibold text-white" %>
         </li>
         <li class="nav-item">
           <%= link_to 'Followed Posts', followed_posts_path, class:"nav-link active fw-semibold text-white" %>
         </li>
-
       </ul>
 
       <!-- Right-aligned navbar links based on authentication -->

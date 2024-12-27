@@ -73,6 +73,7 @@ class PostsController < ApplicationController
       @posts = Post.page(params[:page]).per(4) # Adjust number per page as needed
       render :index # If validation fails, show the index with the form again
     end
+
   end
 
   def edit

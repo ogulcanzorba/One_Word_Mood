@@ -1,4 +1,4 @@
-<h2 class="text-center my-4">Edit Your Post</h2>
+<h1 class="text-center my-4">Edit Your Post</h1>
 
 <%= form_with(model: @post, local: true, class: "mb-4") do |form| %>
   <% if @post.errors.any? %>
@@ -34,16 +34,16 @@
   <%= form.hidden_field :gif_url, id: "gif_url", value: @post.gif_url %>
 
   <div class="d-grid gap-2">
-    <%= form.submit "Update Post", class: "btn btn-primary" %>
+    <%= form.submit "Update Post", class: "btn btn-primary btn-hover color-3" %>
   </div>
 <% end %>
 
 <script>
     document.getElementById('search_gif_button').addEventListener('click', function () {
-        let searchTerm = document.getElementById('gif_search_input').value;
+        const searchTerm = document.getElementById('gif_search_input').value;
 
         if (searchTerm.length >= 3) {
-            fetch(`/posts/search_gif?query=${searchTerm}`)
+            fetch(`/posts/search_gif?query=${encodeURIComponent(searchTerm)}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -51,11 +51,11 @@
                     return response.json();
                 })
                 .then(data => {
-                    let gifResults = document.getElementById('gif_results');
+                    const gifResults = document.getElementById('gif_results');
                     gifResults.innerHTML = ""; // Clear previous results
 
                     data.forEach(gif => {
-                        let gifImg = document.createElement('img');
+                        const gifImg = document.createElement('img');
                         gifImg.src = gif.url;
                         gifImg.alt = gif.title;
                         gifImg.style.width = "100px";
@@ -67,7 +67,7 @@
                             document.querySelectorAll('.gif-option').forEach(img => img.style.border = "none");
                             gifImg.style.border = "2px solid blue"; // Highlight selected GIF
 
-                            let currentGif = document.getElementById('current_gif');
+                            const currentGif = document.getElementById('current_gif');
                             if (currentGif) currentGif.src = gif.url; // Update displayed GIF
                         });
 
@@ -75,7 +75,7 @@
                     });
                 })
                 .catch(error => {
-                    let gifResults = document.getElementById('gif_results');
+                    const gifResults = document.getElementById('gif_results');
                     gifResults.innerHTML = `<p class="text-danger">Error fetching GIFs: ${error.message}</p>`;
                     console.error("Fetch Error:", error);
                 });
