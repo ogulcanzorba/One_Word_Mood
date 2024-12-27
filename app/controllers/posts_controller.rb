@@ -100,9 +100,9 @@ class PostsController < ApplicationController
 
     if @post
       @post.destroy
-      redirect_to posts_path, notice: "Post was successfully deleted."
+      redirect_back fallback_location: posts_path, notice: "Post was successfully deleted."
     else
-      redirect_to posts_path, alert: "You are not authorized to delete this post."
+      redirect_back fallback_location: posts_path, alert: "You are not authorized to delete this post."
     end
   end
 
