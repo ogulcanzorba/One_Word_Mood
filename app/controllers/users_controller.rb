@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_current_user, only: [:update,:edit,:edit_avatar, :update_avatar, :edit_handle, :update_handle,:follow,:unfollow]
+  before_action :set_current_user, only: [ :update, :edit, :edit_avatar, :update_avatar, :edit_handle, :update_handle, :follow, :unfollow ]
 
   def set_current_user
     @user = current_user
@@ -69,18 +69,18 @@ class UsersController < ApplicationController
     current_user.unfollow(@user)
     redirect_to users_path, notice: "You have unfollowed this user."
   end
-  end
+end
 
 
 
   private
 
   def set_user
-    @user = if params[:id]
-              User.find_by(id: params[:id])
-            else
-              current_user
-            end
+    if params[:id]
+      @user = User.find_by(id: params[:id])
+    else
+      @user = current_user
+    end
     unless @user
       redirect_to users_path, alert: "User not found."
     end

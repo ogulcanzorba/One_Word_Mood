@@ -1,8 +1,8 @@
-require 'test_helper'
+require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   setup do
-    @user = User.new(name: 'Test User', email: 'test@example.com', password: 'password')
+    @user = User.new(name: "Test User", email: "test@example.com", password: "password")
   end
 
   test "should be valid" do
@@ -27,7 +27,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "email should be valid format" do
-    invalid_emails = ["user@foo,com", "user_at_foo.org", "user.name@example."]
+    invalid_emails = [ "user@foo,com", "user_at_foo.org", "user.name@example." ]
     invalid_emails.each do |invalid_email|
       @user.email = invalid_email
       assert_not @user.valid?, "#{invalid_email.inspect} should be invalid"

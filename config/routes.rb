@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
 
   # Users routes
-  resources :users, only: [:index, :show, :edit, :update] do
+  resources :users, only: [ :index, :show, :edit, :update ] do
     member do
       get "edit_avatar", to: "users#edit_avatar", as: :edit_avatar
       patch "update_avatar", to: "users#update_avatar", as: :update_avatar
@@ -47,5 +47,4 @@ Rails.application.routes.draw do
       get "profile"
     end
   end
-
 end

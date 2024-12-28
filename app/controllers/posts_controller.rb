@@ -1,8 +1,8 @@
 require "net/http"
 require "json"
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_post, only: [:edit, :update, :destroy, :same_mood, :undo_same_mood]
+  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :set_post, only: [ :edit, :update, :destroy, :same_mood, :undo_same_mood ]
 
   GIPHY_API_KEY = "BdsOE5YV7jCUVT4vg8sxsHHF6ZzW8czO"
   def index
