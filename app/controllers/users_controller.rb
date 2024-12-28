@@ -39,20 +39,18 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to @user, notice: "User was successfully created."
+      redirect_to @user
     else
       render :new
     end
   end
 
   def edit
-    # uses @user set in set_current_user if you want
-    # or you can do @user = User.find(params[:id]) if needed
   end
 
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: "Profile updated successfully."
+      redirect_to @user
     else
       render :edit
     end
@@ -63,7 +61,7 @@ class UsersController < ApplicationController
 
   def update_avatar
     if @user.update(user_params)
-      redirect_to profile_users_path, notice: "Profile picture updated successfully."
+      redirect_to profile_users_path
     else
       render :edit_avatar
     end
@@ -74,7 +72,7 @@ class UsersController < ApplicationController
 
   def update_handle
     if @user.update(user_params)
-      redirect_to profile_users_path, notice: "Handle updated successfully."
+      redirect_to profile_users_path
     else
       render :edit_handle
     end
@@ -83,22 +81,22 @@ class UsersController < ApplicationController
   def follow
     @user = User.find(params[:id])
     if current_user.follow(@user)
-      redirect_to users_path, notice: "You are now following #{@user.handle}."
+      redirect_to users_path
     else
-      redirect_to users_path, alert: "Unable to follow this user."
+      redirect_to users_path
     end
   end
 
   def unfollow
     @user = User.find(params[:id])
     current_user.unfollow(@user)
-    redirect_to users_path, notice: "You have unfollowed this user."
+    redirect_to users_path
   end
 
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-    redirect_to users_url, notice: "User was successfully destroyed."
+    redirect_to users_url
   end
 
   private
