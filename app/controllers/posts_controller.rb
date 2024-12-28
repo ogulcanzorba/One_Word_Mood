@@ -1,12 +1,11 @@
-require "net/http"
-require "json"
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_post, only: [ :edit, :update, :destroy, :same_mood, :undo_same_mood ]
 
   GIPHY_API_KEY = "BdsOE5YV7jCUVT4vg8sxsHHF6ZzW8czO"
+
   def index
-    @post = Post.new # For the new post form
+    @post = Post.new
     @posts = Post.includes(:user).order(updated_at: :desc).page(params[:page]).per(4)
     Rails.logger.warn("No posts found") if @posts.empty?
   end
@@ -14,7 +13,6 @@ class PostsController < ApplicationController
   def search_gif
     search_query = params[:query]
 
-    # Respond to JSON format explicitly
     respond_to do |format|
       format.json do
         if search_query.blank?
@@ -26,14 +24,12 @@ class PostsController < ApplicationController
 
         begin
           response = Net::HTTP.get(url)
-
           if response.blank?
             render json: { error: "Empty response from Giphy API" }, status: :internal_server_error
             return
           end
 
           gifs = JSON.parse(response)["data"]
-
           if gifs.nil? || gifs.empty?
             render json: { error: "No GIFs found for your search" }, status: :not_found
           else
@@ -50,11 +46,8 @@ class PostsController < ApplicationController
     end
   end
 
-
-
   def show
     @post = Post.find_by(id: params[:id])
-
     if @post.nil?
       redirect_to posts_path, alert: "Post not found."
     elsif @post.user.nil?
@@ -64,13 +57,13 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.user = current_user # Assign the current user to the post
+    @post.user = current_user
 
     if @post.save
-      redirect_to posts_path, notice: "Post successfully created." # Redirect to index to display posts
+      redirect_to posts_path, notice: "Post successfully created."
     else
-      @posts = Post.page(params[:page]).per(4) # Adjust number per page as needed
-      render :index # If validation fails, show the index with the form again
+      @posts = Post.page(params[:page]).per(4)
+      render :index
     end
   end
 
@@ -86,7 +79,7 @@ class PostsController < ApplicationController
     if @post.nil?
       redirect_to posts_path, alert: "You are not authorized to edit this post."
     elsif @post.update(post_params)
-      redirect_to posts_path, notice: "Post successfully updated."
+      redirect_to @post, notice: "Post successfully updated."
     else
       flash.now[:alert] = "Failed to update the post. Please fix the errors below."
       render :edit
@@ -94,8 +87,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = current_user.posts.find_by(id: params[:id]) # Restrict deletion to the post owner
-
+    @post = current_user.posts.find_by(id: params[:id])
     if @post
       @post.destroy
       redirect_to posts_path, notice: "Post was successfully deleted."
@@ -106,7 +98,6 @@ class PostsController < ApplicationController
 
   def same_mood
     like = @post.likes.find_by(user: current_user)
-
     if like
       like.destroy
       flash[:notice] = "You removed your mood expression!"
@@ -114,7 +105,6 @@ class PostsController < ApplicationController
       @post.likes.create(user: current_user)
       flash[:notice] = "You expressed the same mood!"
     end
-
     redirect_to posts_path
   end
 
@@ -128,10 +118,12 @@ class PostsController < ApplicationController
     end
     redirect_to posts_path
   end
+
   def followed_posts
     following_users = current_user.following
     @posts = Post.where(user: following_users).order(created_at: :desc)
   end
+
   private
 
   def set_post

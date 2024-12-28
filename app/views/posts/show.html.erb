@@ -1,8 +1,12 @@
 <h1>Post Details</h1>
-<p><strong>Post by: <%= @post.user.username %></strong></p>
+
+<p><strong>Post by: <%= @post.user.name %></strong></p>
+
 <p><%= @post.mood_word %></p>
 <p><%= @post.created_at %></p>
-<%= form_with(model:@post.likes.build,url:like_post_path(@post),method: :post,local:true)do |form| %>
+
+<%= form_with(model: @post.likes.build, url: like_post_path(@post), method: :post, local: true) do |form| %>
   <%= form.submit "Like", class:"btn btn-primary" %>
 <% end %>
+
 <p>Likes: <%= @post.likes.count %></p>
