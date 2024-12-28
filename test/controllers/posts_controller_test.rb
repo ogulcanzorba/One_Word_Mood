@@ -2,15 +2,14 @@ require "test_helper"
 
 class PostsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @post = posts(:one)      # Assuming you have a fixture named :one in posts.yml
-    @user = users(:one)      # Devise user fixture
-    sign_in @user            # Devise helper to authenticate
+    @user = users(:one)
+    sign_in @user
+    @post = posts(:one)
   end
 
   test "should get index" do
     get posts_url
     assert_response :success
-    # removed assigns(:posts) because that requires the rails-controller-testing gem
   end
 
   test "should get new" do
@@ -22,8 +21,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Post.count", 1) do
       post posts_url, params: {
         post: {
-          content: "This is a test content."
-          # If your Post requires a mood_word or other attributes, add them here
+          mood_word: "Happy"
         }
       }
     end
@@ -43,14 +41,12 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   test "should update post" do
     patch post_url(@post), params: {
       post: {
-        content: "Updated content."
-        # Add or remove attributes if your model requires them
+        mood_word: "Depressed"
       }
     }
     assert_redirected_to post_url(@post)
-
     @post.reload
-    assert_equal "Updated content.", @post.content
+    assert_equal "Depressed", @post.mood_word
   end
 
   test "should destroy post" do

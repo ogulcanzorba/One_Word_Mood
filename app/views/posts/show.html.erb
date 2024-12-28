@@ -5,7 +5,7 @@
 <p><%= @post.mood_word %></p>
 <p><%= @post.created_at %></p>
 
-<%= form_with(model: @post.likes.build, url: like_post_path(@post), method: :post, local: true) do |form| %>
+<%= form_with(model: @post.likes.build, url: same_mood_post_path(@post), method: :post, local: true) do |form| %>
   <%= form.submit "Like", class:"btn btn-primary" %>
 <% end %>
 
