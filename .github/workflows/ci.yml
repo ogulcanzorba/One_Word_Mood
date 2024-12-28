@@ -52,7 +52,7 @@ jobs:
 
       - name: JS vulnerability audit
         run: |
-          bundle exec importmap audit
+          bin/importmap audit
 
   lint:
     runs-on: ubuntu-latest
