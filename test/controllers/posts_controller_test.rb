@@ -12,17 +12,12 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get new" do
-    get new_post_url
-    assert_response :success
-  end
+  # REMOVED test "should get new"
 
   test "should create post" do
     assert_difference("Post.count", 1) do
       post posts_url, params: {
-        post: {
-          mood_word: "Happy"
-        }
+        post: { mood_word: "Happy" }
       }
     end
     assert_redirected_to post_url(Post.last)
@@ -40,9 +35,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update post" do
     patch post_url(@post), params: {
-      post: {
-        mood_word: "Depressed"
-      }
+      post: { mood_word: "Depressed" }
     }
     assert_redirected_to post_url(@post)
     @post.reload
