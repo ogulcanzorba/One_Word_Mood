@@ -1,7 +1,0 @@
-one:
-  follower_id: one
-  followed_id: two
-
-two:
-  follower_id: two
-  followed_id: one
