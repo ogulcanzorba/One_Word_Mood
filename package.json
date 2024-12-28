@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@hotwired/turbo-rails": "^8.0.12",
     "@rails/activestorage": "^8.0.100"
   }
 }

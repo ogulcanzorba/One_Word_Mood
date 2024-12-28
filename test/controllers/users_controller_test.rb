@@ -22,7 +22,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         user: {
           name: "TestUser",
           email: "unique#{SecureRandom.hex}@example.com",
-          password: "password"
+          password: "password",
+          password_confirmation: "password"
         }
       }
     end
