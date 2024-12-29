@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   # Global error handling, filters, etc., can go here.
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:handle])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:handle])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :handle ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :handle ])
   end
 end

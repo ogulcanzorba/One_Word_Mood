@@ -63,7 +63,12 @@ gem "kaminari"
 gem "sassc"
 
 gem "ostruct"
-gem 'faraday'
-gem 'faraday_middleware', '~> 1.0'
-gem 'dotenv-rails', groups: [:development, :test]
-gem 'sassc-rails'
+gem "faraday"
+gem "faraday_middleware", "~> 1.0"
+gem "dotenv-rails", groups: [ :development, :test ]
+group :development do
+  gem "brakeman", require: false
+end
+group :development do
+  gem "rubocop", require: false
+end

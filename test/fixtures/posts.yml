@@ -1,9 +1,11 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   user: one
-  content: MyText
+  mood_word: "Neutral"
+  content: "Moody"
+  gif_url: "http://example.com/neutral.gif"
 
 two:
   user: two
-  content: MyText
+  mood_word: "Joyful"
+  content: "Feeling happy and inspired!"
+  gif_url: "http://example.com/joyful.gif"
