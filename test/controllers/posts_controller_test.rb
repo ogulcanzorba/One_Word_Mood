@@ -24,7 +24,9 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   test "should show post" do
     get post_url(@post)
     assert_response :success
+    assert_select "strong", "Post by: #{@post.user.name}"
   end
+  ""
 
   test "should get edit" do
     get edit_post_url(@post)

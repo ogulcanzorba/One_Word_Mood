@@ -53,14 +53,14 @@ class PostsController < ApplicationController
 
 
   def show
-    @user = User.find_by(id: params[:id])
-    if @user.nil?
-      redirect_to posts_path, alert: "User not found."
+    @post = Post.includes(:user).find_by(id: params[:id])
+    if @post.nil?
+      redirect_to posts_path, alert: "Post not found."
     else
-      @own_posts = @user.posts.order(created_at: :desc)
-      @liked_posts = Post.joins(:likes).where(likes: { user_id: @user.id }).order(created_at: :desc)
+      @user = @post.user
     end
   end
+
 
 
   def create
