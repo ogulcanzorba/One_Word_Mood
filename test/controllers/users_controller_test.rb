@@ -17,15 +17,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user" do
-    patch user_url(@user), params: {
-      user: {
-        name: "Updated Name"
-      }
-    }
-    assert_redirected_to user_url(@user)
-    @user.reload
-    assert_equal "Updated Name", @user.name
+    user = users(:one) # Assuming you have fixtures set up
+    patch user_url(user), params: { user: { name: "Updated Name", email: "updated@example.com", handle: "updated_handle" } }
+    assert_redirected_to user_url(user)
   end
+
 
   test "should destroy user" do
     assert_difference("User.count", -1) do

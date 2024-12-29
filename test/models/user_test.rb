@@ -2,7 +2,7 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   setup do
-    @user = User.new(name: "Test User", email: "test@example.com", password: "password")
+    @user = User.new(handle: "test_handle", email: "test@example.com", password: "password")
   end
 
   test "should be valid" do
@@ -43,4 +43,9 @@ class UserTest < ActiveSupport::TestCase
     @user.password = "short"
     assert_not @user.valid?
   end
+
+  test "should respond to posts" do
+    assert_respond_to @user, :posts
+  end
+
 end

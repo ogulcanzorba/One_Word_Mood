@@ -55,9 +55,9 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to @user
+      redirect_to @user, notice: 'User was successfully updated.'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -115,8 +115,7 @@ class UsersController < ApplicationController
       :handle,
       :email,
       :password,
-      :password_confirmation,
-      :name
+      :password_confirmation
     )
   end
 end
