@@ -1,7 +1,11 @@
 one:
   user: one
+  mood_word: "Neutral"
   content: "Moody"
+  gif_url: "http://example.com/neutral.gif"
 
 two:
   user: two
-  content: "Joyful"
+  mood_word: "Joyful"
+  content: "Feeling happy and inspired!"
+  gif_url: "http://example.com/joyful.gif"

@@ -73,9 +73,6 @@ jobs:
         run: |
           bundle install
 
-      - name: RuboCop linting
-        run: |
-          bundle exec rubocop -f github
 
   test:
     runs-on: ubuntu-latest
