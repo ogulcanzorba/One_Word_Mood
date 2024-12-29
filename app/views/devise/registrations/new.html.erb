@@ -2,10 +2,10 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card shadow" style="box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); transition: box-shadow 0.3s;">
-        <div class="card-header text-center" style="background-color: #59b396; color: white;">
+        <div class="card-header text-center" style="background-color: transparent; color: rgba(0,0,0,0.52);">
           <h2 class="fw-bold">Create Your Account</h2>
         </div>
-        <div class="card-body bg-light">
+        <div class="card-body" style="background-color: transparent;">
           <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "needs-validation", novalidate: true }) do |f| %>
             <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -33,7 +33,7 @@
             </div>
 
             <div class="d-grid">
-              <%= f.submit "Sign Up", class: "btn btn-success btn-block rounded-pill grow-button", style: "background-color: #59b396; color: white;" %>
+              <%= f.submit "Sign Up", class: "btn btn-hover.color-5 btn-block rounded-pill grow-button", style: "background-image: linear-gradient(to right, #667eea, #764ba2, #6B8DD6, #8E37D7); color: white;" %>
             </div>
           <% end %>
         </div>

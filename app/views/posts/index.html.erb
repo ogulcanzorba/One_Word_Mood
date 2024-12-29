@@ -1,5 +1,6 @@
-<h2 class="text-center my-4">How are you feeling?</h2>
-
+<div class="text-center my-4">
+  <span class="typing-animation">How are you feeling?</span>
+</div>
 <%= form_with(model: @post, local: true, class: "mb-4") do |form| %>
   <% if @post.errors.any? %>
     <div class="alert alert-danger" role="alert">
@@ -27,7 +28,7 @@
   <%= form.hidden_field :gif_url, id: "gif_url" %>
 
   <div class="d-grid gap-2">
-    <%= form.submit "Create Post", class: "btn btn-primary" %>
+    <%= form.submit "Create Post", class: "btn-hover color-3", style: "width: 1250px;" %>
   </div>
 <% end %>
 
