@@ -86,8 +86,10 @@ class UsersController < ApplicationController
   def follow
     @user = User.find(params[:id])
     if current_user.follow(@user)
+      flash[:notice]="Now you're following #{@user.handle}!"
       redirect_to users_path
     else
+      flash[:alert] = "Unable to follow #{@user.handle}."
       redirect_to users_path
     end
   end
@@ -95,6 +97,7 @@ class UsersController < ApplicationController
   def unfollow
     @user = User.find(params[:id])
     current_user.unfollow(@user)
+    flash[:notice]="You unfollowed #{@user.handle}"
     redirect_to users_path
   end
 
