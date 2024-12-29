@@ -361,7 +361,6 @@ DEPENDENCIES
   ostruct
   puma (>= 5.0)
   rails (~> 7.2.2)
-  rubocop
   rubocop-rails-omakase
   sassc
   sassc-rails

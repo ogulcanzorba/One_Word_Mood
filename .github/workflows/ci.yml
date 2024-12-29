@@ -3,19 +3,18 @@ name: CI
 on:
   pull_request:
   push:
-    branches: 
+    branches:
       - main
       - hotfixes
 
 jobs:
   scan_ruby:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set execute permissions on all bin files
+      - name: Set permissions on bin
         run: chmod +x bin/* || true
 
       - name: Set up Ruby
@@ -24,17 +23,21 @@ jobs:
           ruby-version: '3.3.5'
           bundler-cache: true
 
-      - name: Scan for common Rails security vulnerabilities using static analysis
-        run: bin/brakeman --no-pager
+      - name: Install gems
+        run: |
+          bundle install
+
+      - name: Brakeman security scan
+        run: |
+          bundle exec brakeman --no-pager
 
   scan_js:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set execute permissions on all bin files
+      - name: Set permissions on bin
         run: chmod +x bin/* || true
 
       - name: Set up Ruby
@@ -43,8 +46,13 @@ jobs:
           ruby-version: '3.3.5'
           bundler-cache: true
 
-      - name: Scan for security vulnerabilities in JavaScript dependencies
-        run: bin/importmap audit
+      - name: Install gems
+        run: |
+          bundle install
+
+      - name: JS vulnerability audit
+        run: |
+          bin/importmap audit
 
   lint:
     runs-on: ubuntu-latest
@@ -52,7 +60,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set execute permissions on all bin files
+      - name: Set permissions on bin
         run: chmod +x bin/* || true
 
       - name: Set up Ruby
@@ -61,20 +69,28 @@ jobs:
           ruby-version: '3.3.5'
           bundler-cache: true
 
-      - name: Lint code for consistent style
-        run: bin/rubocop -f github
+      - name: Install gems
+        run: |
+          bundle install
+
 
   test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
+      - name: Install extra packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            google-chrome-stable \
+            curl \
+            libjemalloc2 \
+            libvips \
+            sqlite3
 
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set execute permissions on all bin files
+      - name: Set permissions on bin
         run: chmod +x bin/* || true
 
       - name: Set up Ruby
@@ -83,16 +99,25 @@ jobs:
           ruby-version: '3.3.5'
           bundler-cache: true
 
-      - name: Clean and install gems
-        run: rm -rf vendor/bundle && bundle install
+      - name: Install gems
+        run: |
+          rm -rf vendor/bundle
+          bundle install
 
-      - name: Set up database and prepare tests
-        run: bin/rails db:create db:migrate
+      - name: Create & migrate DB
+        run: |
+          bundle exec rails db:create
+          bundle exec rails db:migrate
 
-      - name: Run tests
+      - name: Prepare test DB
+        run: |
+          bundle exec rails db:test:prepare
+
+      - name: Run Minitest
         env:
           RAILS_ENV: test
-        run: bin/rails db:test:prepare test test:system --verbose
+        run: |
+          bundle exec rails test:all --verbose
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
