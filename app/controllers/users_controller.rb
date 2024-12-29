@@ -33,8 +33,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @own_posts = @user.posts
-    @saved_posts = @user.saved_posts
+    @own_posts = @user.posts.order(created_at:  :desc)
+    @liked_posts = Post.joins(:likes).where(likes: { user_id: @user.id }).order(created_at: :desc)
   end
 
   def new
