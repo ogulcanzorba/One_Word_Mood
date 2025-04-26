@@ -1,20 +1,18 @@
-version: "3.8"
-
 services:
   db:
     image: postgres:14
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: onewordmood_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
 
   web:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
+    command: bash -c "rm -f tmp/pids/server.pid && ./wait-for-db.sh db bundle exec rails s -b 0.0.0.0"
     volumes:
       - .:/myapp
     ports:
@@ -22,7 +20,15 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_URL: postgresql://postgres:password@db:5432/onewordmood_development
+
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
 
 volumes:
   postgres_data:
+  ollama_data:
